@@ -91,7 +91,7 @@
 		{:else}
 			<div class="bk" transition:fade>
 				{#if loadingVisible}
-					<div class="logo" transition:fade>
+					<div class="loading" transition:fade>
 						<ProgressCircular size={70} indeterminate color="primary" />
 					</div>
 				{/if}
@@ -114,7 +114,7 @@
 		top: 0;
 	}
 
-	.logo {
+	.loading {
 		position: absolute;
 		top: 50%;
 		left: 50%;
