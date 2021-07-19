@@ -1,6 +1,7 @@
 {
 	"name": "grapher",
 	"version": "0.0.1-beta.1",
+	"private": true,
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
@@ -34,5 +35,8 @@
 		"@mdi/js": "^5.9.55",
 		"qiankun": "^2.4.3",
 		"svelte-materialify": "^0.3.11"
+	},
+	"hooks": {
+		"pre-commit": "npm run check && npm run format"
 	}
 }
