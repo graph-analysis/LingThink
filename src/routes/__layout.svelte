@@ -19,7 +19,7 @@
 	const config: AppConfig = {
 		name: 'myapp',
 		source: 'jsdelivr',
-		target: '@graph-analysis/grapher-2d',
+		target: '@graph-analysis/grapher-2d@0.0.2-beta.4',
 		index: 'index.html',
 		data: {
 			graph: {
