@@ -13,6 +13,7 @@
 	import type { AppConfig } from '$lib/qiankun-svelte/index.svelte';
 	import { fade } from 'svelte/transition';
 	import type { MicroApp } from 'qiankun';
+	import { onMount } from 'svelte';
 
 	const splashScreenVedio = 'loading.mp4';
 	const config: AppConfig = {
@@ -20,7 +21,50 @@
 		source: 'jsdelivr',
 		target: '@graph-analysis/grapher-2d',
 		index: 'index.html',
-		data: {}
+		data: {
+			graph: {
+				nodes: [
+					{
+						id: 'node-0',
+						style: {
+							label: { value: '节点0' }
+						},
+						x: 100,
+						y: 100
+					},
+					{
+						id: 'node-1',
+						style: {
+							label: { value: '节点1' }
+						},
+						x: 200,
+						y: 200
+					},
+					{
+						id: 'node-2',
+						style: {
+							label: { value: '节点2' }
+						},
+						x: 100,
+						y: 300
+					},
+					{
+						id: 'node-3',
+						style: {
+							label: { value: '节点3' }
+						},
+						x: 200,
+						y: 400
+					}
+				],
+				edges: [
+					{
+						source: 'node-0',
+						target: 'node-1'
+					}
+				]
+			}
+		}
 	};
 </script>
 
@@ -30,23 +74,17 @@
 	let loadingVisible = true;
 	let app: MicroApp;
 
-	const v = (node: HTMLVideoElement) => {
-		// 预取app
+	onMount(async () => {
 		prefetchApp(config);
-
-		return {
-			destroy() {
-				// 消失的时候最小化appbar
-				collapsed = !collapsed;
-			}
-		};
-	};
+	});
 
 	const trunoff = async (app: MicroApp | undefined) => {
 		if (app !== undefined) {
 			const interval = setInterval(() => {
 				switch (app.getStatus()) {
 					case 'MOUNTED': {
+						// 最小化AppBar、隐藏loading图标
+						collapsed = !collapsed;
 						loadingVisible = false;
 						clearInterval(interval);
 						break;
@@ -81,7 +119,6 @@
 				autoplay
 				class="video"
 				src={splashScreenVedio}
-				use:v
 				transition:fade
 				on:ended={() => {
 					// 播放完毕自动消失
