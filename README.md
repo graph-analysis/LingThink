@@ -10,7 +10,7 @@
 
 - [Grapher-2d](https://github.com/graph-analysis/grapher-2d) 基于 Graphin 开发的图可视分析应用
 
-## 插件开发
+## 应用开发
 
 #### 开发 web 微应用
 
