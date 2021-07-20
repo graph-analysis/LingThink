@@ -18,53 +18,8 @@
 	const splashScreenVedio = 'loading.mp4';
 	const config: AppConfig = {
 		name: 'myapp',
-		source: 'jsdelivr',
-		target: '@graph-analysis/grapher-2d@0.0.2-beta.4',
-		index: 'index.html',
-		data: {
-			graph: {
-				nodes: [
-					{
-						id: 'node-0',
-						style: {
-							label: { value: '节点0' }
-						},
-						x: 100,
-						y: 100
-					},
-					{
-						id: 'node-1',
-						style: {
-							label: { value: '节点1' }
-						},
-						x: 200,
-						y: 200
-					},
-					{
-						id: 'node-2',
-						style: {
-							label: { value: '节点2' }
-						},
-						x: 100,
-						y: 300
-					},
-					{
-						id: 'node-3',
-						style: {
-							label: { value: '节点3' }
-						},
-						x: 200,
-						y: 400
-					}
-				],
-				edges: [
-					{
-						source: 'node-0',
-						target: 'node-1'
-					}
-				]
-			}
-		}
+		configURL: 'https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d@0.0.2-beta.11/package.json',
+		data: {}
 	};
 </script>
 
@@ -75,9 +30,11 @@
 	let app: MicroApp;
 
 	onMount(async () => {
+		// 在动画时预取应用
 		prefetchApp(config);
 	});
 
+	// 应用加载完毕，关掉动画
 	const trunoff = async (app: MicroApp | undefined) => {
 		if (app !== undefined) {
 			const interval = setInterval(() => {
