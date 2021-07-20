@@ -23,7 +23,7 @@
   "plugin": {
     "source": {
       "domain": "cdn.jsdelivr.net", // 静态文件托管服务器域名
-      "baseURL": "npm/${name}@${version}", // 资源在非根路由下的 baseURL
+      "baseURL": "npm/${name}@${version}", // 资源在非根路由下的 baseURL, ${}可以直接取到 pakage.json 中的字段
       "entry": "index.html" // 入口文件名称
     }
   },
