@@ -14,9 +14,10 @@
 
 #### 开发 web 微应用
 
-1. 根据 [qiankun微应用](https://qiankun.umijs.org/zh) 文档初始化应用
+1. 根据 [qiankun 微应用](https://qiankun.umijs.org/zh) 文档初始化应用
 2. 将应用打包托管到静态服务器
 3. 在 package.json 中配置应用信息，加入以下字段
+
 ```json
 ...
   "plugin": {
@@ -29,8 +30,7 @@
 ...
 ```
 
- 	4. 提交应用信息
-
+4. 提交应用信息
 
 ## 项目参与指南
 
