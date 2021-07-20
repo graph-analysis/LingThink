@@ -8,7 +8,7 @@
 
 很快就有应用市场界面可供选择
 
-- Grapher-2d 基于 Graphin 开发的图可视分析应用
+- [Grapher-2d](https://github.com/graph-analysis/grapher-2d) 基于 Graphin 开发的图可视分析应用
 
 ## 插件开发
 
