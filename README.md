@@ -18,7 +18,7 @@
 2. 将应用打包托管到静态服务器
 3. 在 package.json 中配置应用信息，加入以下字段
 
-```json
+```js
 ...
   "plugin": {
     "source": {
