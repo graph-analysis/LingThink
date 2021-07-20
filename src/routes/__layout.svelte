@@ -9,27 +9,30 @@
 	} from 'svelte-materialify';
 	import { mdiMenu } from '@mdi/js';
 	import Qiankun, { prefetchApp } from '$lib/qiankun-svelte/index.svelte';
-
 	import type { AppConfig } from '$lib/qiankun-svelte/index.svelte';
 	import { fade } from 'svelte/transition';
 	import type { MicroApp } from 'qiankun';
 	import { onMount } from 'svelte';
+</script>
 
-	const splashScreenVedio = 'loading.mp4';
-	const config: AppConfig = {
+<script lang="ts">
+	// todo: 这些都需要更改为全局状态
+	let splashScreenVedio = '';
+	// let splashScreenVedio = 'loading.mp4';
+	let collapsed = false;
+	let config: AppConfig = {
 		name: 'myapp',
 		configURL: 'https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d@0.0.2-beta.11/package.json',
 		data: {}
 	};
-</script>
 
-<script lang="ts">
-	let collapsed = false;
-	let showLoadingVedio = true;
-	let loadingVisible = true;
+	let showLoadingVedio = splashScreenVedio === '' ? false : true;
+	let loadingVisible = false;
 	let app: MicroApp;
 
 	onMount(async () => {
+		// 开始loading
+		loadingVisible = true;
 		// 在动画时预取应用
 		prefetchApp(config);
 	});
