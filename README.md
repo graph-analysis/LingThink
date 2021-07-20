@@ -36,7 +36,7 @@
 
 1. [x] 克隆至本地
 
-`git clone https://github.com/graph-analysis/grapher`
+`git clone https://github.com/graph-analysis/LingThink`
 
 2. [x] 开发
 
