@@ -14,7 +14,9 @@
 					<Icon path={mdiMenu} />
 				</Button>
 			</div>
-			<span slot="title">{$appConfig.name}</span>
+			<span slot="title"
+				>{$windowConfig.mode === Mode.MICRO_APP ? $appConfig.name : 'LingThink'}</span
+			>
 			<div style="flex-grow:1" />
 			<Checkbox bind:checked={$windowConfig.collapsed} />
 		</AppBar>
@@ -32,5 +34,6 @@
 <style>
 	.page {
 		display: flex;
+		flex-direction: column;
 	}
 </style>

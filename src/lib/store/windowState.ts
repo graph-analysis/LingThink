@@ -13,7 +13,7 @@ type WindowConfig = {
 
 const defaultwindowConfig: WindowConfig = {
 	collapsed: false,
-	mode: Mode.MICRO_APP
+	mode: Mode.MAIN
 };
 
 const windowConfig = <Writable<WindowConfig>>writable(defaultwindowConfig);
