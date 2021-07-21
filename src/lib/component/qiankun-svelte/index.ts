@@ -21,10 +21,9 @@ const rep = (str: string, pkg: object) => {
 };
 
 // 输入pakage.json或plugin.json
-export default class GetPluginMetadata {
+class GetPluginMetadata {
 	source: Source;
 	baseURL: string;
-
 	async init(url: string) {
 		if (url.endsWith('package.json')) {
 			// pkgjson模式初始化
@@ -70,3 +69,7 @@ export default class GetPluginMetadata {
 		return customFetch;
 	}
 }
+
+export default GetPluginMetadata;
+
+export type { Source };

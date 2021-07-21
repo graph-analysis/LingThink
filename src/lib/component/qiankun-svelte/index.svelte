@@ -1,12 +1,8 @@
 <script context="module" lang="ts">
 	import type { MicroApp } from 'qiankun';
 	import { onMount } from 'svelte';
-	import GetPluginMetadata from './utils';
-	export interface AppConfig {
-		name: string;
-		configURL: string;
-		data?: any;
-	}
+	import GetPluginMetadata from '.';
+	import type { AppConfig } from '$lib/store/appState';
 
 	const prepare = async (appConfig: AppConfig) => {
 		const appMetadataGetter = new GetPluginMetadata();
@@ -17,7 +13,7 @@
 		return { entry, customFetch };
 	};
 
-	export const prefetchApp = async (appConfig: AppConfig) => {
+	const prefetchApp = async (appConfig: AppConfig) => {
 		const { prefetchApps } = await import('qiankun');
 		const { entry, customFetch } = await prepare(appConfig);
 		// todo: dev mode
@@ -35,13 +31,15 @@
 		);
 		return true;
 	};
+
+	export { prefetchApp };
 </script>
 
 <script lang="ts">
 	export let appConfig: AppConfig;
 	export let app: MicroApp = undefined;
 
-	let container: HTMLDivElement = undefined;
+	let container: HTMLDivElement;
 
 	onMount(async () => {
 		const { loadMicroApp } = await import('qiankun');
