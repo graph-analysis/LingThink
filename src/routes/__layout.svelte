@@ -8,6 +8,7 @@
 
 <MaterialApp>
 	<div class="page">
+		<!-- todo: 自定义Appbar，拿到全局数据 -->
 		<AppBar collapsed={$windowConfig.collapsed} class="primary-color theme--dark">
 			<div slot="icon">
 				<Button depressed fab text>

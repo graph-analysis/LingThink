@@ -16,8 +16,7 @@
 	const prefetchApp = async (appConfig: AppConfig) => {
 		const { prefetchApps } = await import('qiankun');
 		const { entry, customFetch } = await prepare(appConfig);
-		// todo: dev mode
-		console.log(`预取应用 ${appConfig.name}`);
+		if (process.env.NODE_ENV === 'development') console.log(`预取应用 ${appConfig.name}`);
 		prefetchApps(
 			[
 				{
