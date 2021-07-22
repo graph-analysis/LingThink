@@ -4,19 +4,8 @@
 	const toApp = () => {
 		$windowConfig.mode = Mode.MICRO_APP;
 	};
-	// import { onMount } from 'svelte';
-
-	// onMount(async () => {
-	// 	System.import('https://gogakoreli.github.io/svelte-snake-web-component/bundle.js');
-	// });
 </script>
 
-<svelte:head>
-	<script
-		type="application/javascript"
-		src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.min.js"
-		async></script>
-</svelte:head>
 <!-- todo: 构建应用列表视图，商店、订阅 -->
 <div class="d-flex justify-center mt-4 mb-4">
 	<Card outlined style="max-width:300px;">
@@ -34,5 +23,4 @@
 			<Button rounded outlined on:click={toApp}>Button</Button>
 		</CardActions>
 	</Card>
-	<!-- <svelte-snake data={9988} /> -->
 </div>

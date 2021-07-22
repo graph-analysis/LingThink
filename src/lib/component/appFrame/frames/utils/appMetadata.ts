@@ -7,11 +7,10 @@ interface Source {
 }
 
 // 输入pakage.json或plugin.json
-class AppMetadata implements Source {
+class AppMetadata {
 	private source: Source;
-	domain: string;
-	baseURL: string;
-	entry: string;
+	private baseURL: string;
+	entryURL: string;
 	appConfig: AppConfig;
 	async init(appConfig: AppConfig) {
 		this.appConfig = appConfig;
@@ -32,9 +31,8 @@ class AppMetadata implements Source {
 		const pkg = await pkgResp.json();
 		// todo:如果没有找到配置信息抛出异常
 		this.source = pkg?.plugin?.source || { domain: '', baseURL: '', entry: '' };
-		this.domain = this.source.domain;
 		this.baseURL = this.rep(this.source.baseURL, pkg);
-		this.entry = this.getEntryURL();
+		this.entryURL = this.getEntryURL();
 	}
 
 	// 获取微应用入口点

@@ -13,7 +13,7 @@
 
 	onMount(async () => {
 		const { loadMicroApp } = await import('qiankun');
-		const entry = appMetadata.entry;
+		const entry = appMetadata.entryURL;
 		const customFetch = appMetadata.getCustomFetch();
 
 		app = loadMicroApp(

@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import QiankunFrame from './qiankun/index.svelte';
+	import WebComponentFrame from './webComponent/index.svelte';
 	import { MicroAppType } from '$lib/store/appState';
 	import { onMount } from 'svelte';
 	import type { AppMetadata } from './index';
@@ -10,7 +11,6 @@
 	export let loadOK: boolean = false;
 
 	let AppFrame: any;
-	// appMetadata = await appMetadataGetter(appConfig);
 
 	onMount(async () => {
 		switch (appMetadata.appConfig.type) {
@@ -19,7 +19,7 @@
 				break;
 			// todo: 增加webcomponent模式
 			case MicroAppType.WEB_COMPONENT:
-				AppFrame = QiankunFrame;
+				AppFrame = WebComponentFrame;
 				break;
 		}
 	});
