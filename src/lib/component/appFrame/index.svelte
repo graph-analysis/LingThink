@@ -2,7 +2,7 @@
 	import { fade } from 'svelte/transition';
 	import { ProgressCircular } from 'svelte-materialify';
 	import AutoFrame from './frames/index.svelte';
-	import { appMetadataGetter, prefetchApp, AppMetadata } from './frames';
+	import { appMetadataGetter, prefetchApp } from './frames';
 	import { windowConfig } from '$lib/store';
 	import type { AppConfig } from '$lib/store';
 </script>
