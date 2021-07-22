@@ -29,8 +29,12 @@ class AppMetadata {
 	private async getPkgMetadata(url: string) {
 		const pkgResp = await fetch(url);
 		const pkg = await pkgResp.json();
-		// todo:如果没有找到配置信息抛出异常
-		this.source = pkg?.plugin?.source || { domain: '', baseURL: '', entry: '' };
+		this.source = pkg?.plugin?.source;
+
+		if (this.source === undefined) {
+			throw Error('package.json 非法');
+		}
+
 		this.baseURL = this.rep(this.source.baseURL, pkg);
 		this.entryURL = this.getEntryURL();
 	}
