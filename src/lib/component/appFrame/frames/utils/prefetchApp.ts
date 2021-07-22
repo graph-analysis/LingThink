@@ -1,10 +1,14 @@
 import type { AppMetadata } from './appMetadata';
 import { prefetchApp as QiankunPrefetch } from '../qiankun';
+import { MicroAppType } from '$lib/store';
 
 // 预取APP
-// todo:自动判断是哪个框架
 const prefetchApp = async (appMetadata: AppMetadata) => {
-	QiankunPrefetch(appMetadata);
+	switch (appMetadata.appConfig.type) {
+		case MicroAppType.QIANKUN:
+			QiankunPrefetch(appMetadata);
+			break;
+	}
 };
 
 export { prefetchApp };

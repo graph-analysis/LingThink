@@ -1,5 +1,5 @@
 import type { AppConfig } from '$lib/store/appState';
-
+import { AppLoadError } from '$lib/error';
 interface Source {
 	domain: string;
 	baseURL: string;
@@ -19,7 +19,7 @@ class AppMetadata {
 			// pkgjson模式初始化
 			await this.getPkgMetadata(appConfig.configURL);
 		} else {
-			throw new Error('目前支持 package.json 模式');
+			throw new AppLoadError('目前支持 package.json 模式');
 		}
 
 		return this;
@@ -32,7 +32,7 @@ class AppMetadata {
 		this.source = pkg?.plugin?.source;
 
 		if (this.source === undefined) {
-			throw Error('package.json 非法');
+			throw new AppLoadError('package.json 非法');
 		}
 
 		this.baseURL = this.rep(this.source.baseURL, pkg);
