@@ -1,33 +1,24 @@
+import type { AppConfig } from '$lib/store/appState';
+
 interface Source {
 	domain: string;
 	baseURL: string;
 	entry: string;
 }
 
-// 基于pkg将${value}进行模版替换
-const rep = (str: string, pkg: object) => {
-	const re = /\${(.*?)}/g;
-	const matchList = str.match(re);
-	const ob: object = {};
-	matchList.forEach((key: string) => {
-		ob[key] = String(pkg[key.slice(2, -1)]) || '';
-	});
-
-	for (const v in ob) {
-		str = str.replace(v, ob[v]);
-	}
-
-	return str;
-};
-
 // 输入pakage.json或plugin.json
-class GetPluginMetadata {
-	source: Source;
+class AppMetadata implements Source {
+	private source: Source;
+	domain: string;
 	baseURL: string;
-	async init(url: string) {
-		if (url.endsWith('package.json')) {
+	entry: string;
+	appConfig: AppConfig;
+	async init(appConfig: AppConfig) {
+		this.appConfig = appConfig;
+
+		if (appConfig.configURL.endsWith('package.json')) {
 			// pkgjson模式初始化
-			await this.getPkgMetadata(url);
+			await this.getPkgMetadata(appConfig.configURL);
 		} else {
 			throw new Error('目前支持 package.json 模式');
 		}
@@ -39,13 +30,32 @@ class GetPluginMetadata {
 	private async getPkgMetadata(url: string) {
 		const pkgResp = await fetch(url);
 		const pkg = await pkgResp.json();
+		// todo:如果没有找到配置信息抛出异常
 		this.source = pkg?.plugin?.source || { domain: '', baseURL: '', entry: '' };
-		this.baseURL = rep(this.source.baseURL, pkg);
+		this.domain = this.source.domain;
+		this.baseURL = this.rep(this.source.baseURL, pkg);
+		this.entry = this.getEntryURL();
 	}
 
 	// 获取微应用入口点
-	getEntryURL() {
+	private getEntryURL() {
 		return `//${this.source.domain}/${this.baseURL}/${this.source.entry}`;
+	}
+
+	// 基于json将${value}进行模版替换
+	private rep(str: string, pkg: object) {
+		const re = /\${(.*?)}/g;
+		const matchList = str.match(re);
+		const ob: object = {};
+		matchList.forEach((key: string) => {
+			ob[key] = String(pkg[key.slice(2, -1)]) || '';
+		});
+
+		for (const v in ob) {
+			str = str.replace(v, ob[v]);
+		}
+
+		return str;
 	}
 
 	// 微应用在非根路由的情况下需要自定义fetch请求静态文件
@@ -70,6 +80,7 @@ class GetPluginMetadata {
 	}
 }
 
-export default GetPluginMetadata;
+// 从URL配置中获取应用元信息
+const appMetadataGetter = (appConfig: AppConfig) => new AppMetadata().init(appConfig);
 
-export type { Source };
+export { appMetadataGetter, AppMetadata };

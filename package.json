@@ -28,12 +28,14 @@
 		"svelte-check": "^2.2.3",
 		"svelte-preprocess": "^4.7.4",
 		"tslib": "^2.3.0",
-		"typescript": "^4.3.5"
+		"typescript": "^4.3.5",
+		"@types/systemjs": "^6.1.1"
 	},
 	"type": "module",
 	"dependencies": {
 		"@mdi/js": "^5.9.55",
 		"qiankun": "^2.4.4",
-		"svelte-materialify": "^0.3.11"
+		"svelte-materialify": "^0.3.11",
+		"systemjs": "^6.10.2"
 	}
 }

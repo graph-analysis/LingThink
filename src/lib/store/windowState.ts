@@ -3,7 +3,7 @@ import type { Writable } from 'svelte/store';
 
 enum Mode {
 	MICRO_APP,
-	MAIN
+	HOME
 }
 
 type WindowConfig = {
@@ -13,7 +13,7 @@ type WindowConfig = {
 
 const defaultwindowConfig: WindowConfig = {
 	collapsed: false,
-	mode: Mode.MAIN
+	mode: Mode.HOME
 };
 
 const windowConfig = <Writable<WindowConfig>>writable(defaultwindowConfig);

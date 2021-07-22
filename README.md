@@ -38,7 +38,9 @@
 
 1. [ ] svelte 组件微应用
 
-2. [ ] utools 微应用
+2. [ ] Web Component 微应用
+
+3. [ ] utools 微应用
 
 ## 项目参与指南
 

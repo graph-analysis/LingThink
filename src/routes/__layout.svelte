@@ -2,8 +2,7 @@
 	import { AppBar, Checkbox, Button, Icon, MaterialApp } from 'svelte-materialify';
 	import { mdiMenu } from '@mdi/js';
 	import AppFrame from '$lib/component/appFrame/index.svelte';
-	import { appConfig } from '$lib/store/appState';
-	import { windowConfig, Mode } from '$lib/store/windowState';
+	import { appConfig, windowConfig, Mode } from '$lib/store';
 </script>
 
 <MaterialApp>
@@ -23,7 +22,7 @@
 		</AppBar>
 
 		<div class="container">
-			{#if $windowConfig.mode === Mode.MAIN}
+			{#if $windowConfig.mode === Mode.HOME}
 				<slot />
 			{:else if $windowConfig.mode === Mode.MICRO_APP}
 				<AppFrame appConfig={$appConfig} />

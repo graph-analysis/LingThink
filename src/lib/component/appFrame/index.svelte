@@ -1,11 +1,10 @@
 <script context="module" lang="ts">
-	import { ProgressCircular } from 'svelte-materialify';
-	import Qiankun, { prefetchApp } from '$lib/component/qiankun-svelte/index.svelte';
 	import { fade } from 'svelte/transition';
-	import type { MicroApp } from 'qiankun';
-	import { onMount } from 'svelte';
-	import { windowConfig } from '$lib/store/windowState';
-	import type { AppConfig } from '$lib/store/appState';
+	import { ProgressCircular } from 'svelte-materialify';
+	import AutoFrame from './frames/index.svelte';
+	import { appMetadataGetter, prefetchApp, AppMetadata } from './frames';
+	import { windowConfig } from '$lib/store';
+	import type { AppConfig } from '$lib/store';
 </script>
 
 <script lang="ts">
@@ -15,61 +14,51 @@
 
 	// 空字符串或未定义url就不播放
 	let showLoadingVedio = splashScreenVedio === '' || splashScreenVedio === undefined ? false : true;
-
 	let loadingVisible = false;
-	let app: MicroApp;
+	let loadOK = false;
 
-	onMount(async () => {
+	const getAppMetadata = async () => {
 		// 开始loading
 		loadingVisible = true;
 		// 在动画时预取应用
-		prefetchApp(appConfig);
-	});
-
-	// 应用加载完毕，关掉动画
-	const trunoff = async (app: MicroApp | undefined) => {
-		if (app !== undefined) {
-			const interval = setInterval(() => {
-				switch (app.getStatus()) {
-					case 'MOUNTED': {
-						// 最小化AppBar、隐藏loading图标
-						$windowConfig.collapsed = true;
-						loadingVisible = false;
-						clearInterval(interval);
-						break;
-					}
-				}
-			}, 100);
-		}
+		const appMetadata = await appMetadataGetter(appConfig);
+		await prefetchApp(appMetadata);
+		return appMetadata;
 	};
 
-	$: [trunoff(app), $windowConfig.collapsed];
+	$: if (loadOK) {
+		// 结束loading并最小化appbar
+		loadingVisible = false;
+		$windowConfig.collapsed = true;
+	}
 </script>
 
 <div>
-	{#if showLoadingVedio}
-		<!-- Splash screen -->
-		<video
-			muted
-			autoplay
-			class="video"
-			src={splashScreenVedio}
-			transition:fade
-			on:ended={() => {
-				// 播放完毕自动消失
-				showLoadingVedio = !showLoadingVedio;
-			}}
-		/>
-	{:else}
-		<div transition:fade>
-			{#if loadingVisible}
-				<div class="loading" transition:fade>
-					<ProgressCircular size={70} indeterminate color="primary" />
-				</div>
-			{/if}
-			<Qiankun {appConfig} bind:app />
-		</div>
-	{/if}
+	{#await getAppMetadata() then appMetadata}
+		{#if showLoadingVedio}
+			<!-- Splash screen -->
+			<video
+				muted
+				autoplay
+				class="video"
+				src={splashScreenVedio}
+				transition:fade
+				on:ended={() => {
+					// 播放完毕自动消失
+					showLoadingVedio = !showLoadingVedio;
+				}}
+			/>
+		{:else}
+			<div transition:fade>
+				{#if loadingVisible}
+					<div class="loading" transition:fade>
+						<ProgressCircular size={70} indeterminate color="primary" />
+					</div>
+				{/if}
+				<AutoFrame {appMetadata} bind:loadOK />
+			</div>
+		{/if}
+	{/await}
 </div>
 
 <svelte:head>
