@@ -45,7 +45,7 @@
 				transition:fade
 				on:ended={() => {
 					// 播放完毕自动消失
-					showLoadingVedio = !showLoadingVedio;
+					showLoadingVedio = false;
 				}}
 			/>
 		{:else}
