@@ -9,6 +9,7 @@
 	export let loadOK: boolean = false;
 
 	onMount(async () => {
+		// @ts-nocheck
 		await import('systemjs/dist/system');
 		System.import(appMetadata.entryURL);
 		console.log(loadOK);
