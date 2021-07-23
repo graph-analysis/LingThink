@@ -21,9 +21,7 @@
 		// 开始loading
 		loadingVisible = true;
 		// 在动画时预取应用
-		// todo:显示应用打开异常
 		const appMetadata = await appMetadataGetter(appConfig);
-		// todo:显示应用加载异常
 		await prefetchApp(appMetadata);
 		return appMetadata;
 	};

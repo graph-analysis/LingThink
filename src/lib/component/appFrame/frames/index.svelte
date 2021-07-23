@@ -17,7 +17,6 @@
 			case MicroAppType.QIANKUN:
 				AppFrame = QiankunFrame;
 				break;
-			// todo: 增加webcomponent模式
 			case MicroAppType.WEB_COMPONENT:
 				AppFrame = WebComponentFrame;
 				break;
