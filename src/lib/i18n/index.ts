@@ -1,6 +1,6 @@
 import { getLocaleFromNavigator, init, register } from 'svelte-i18n';
 
-register('zh-CN', () => import('./zh-CN.json'));
+register('zh', () => import('./zh.json'));
 register('en', () => import('./en.json'));
 
 init({
