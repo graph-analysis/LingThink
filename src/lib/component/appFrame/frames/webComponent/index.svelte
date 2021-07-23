@@ -9,7 +9,7 @@
 	export let loadOK: boolean = false;
 
 	onMount(async () => {
-		// @ts-nocheck
+		// tslint:disable-next-line
 		await import('systemjs/dist/system');
 		System.import(appMetadata.entryURL);
 		console.log(loadOK);
