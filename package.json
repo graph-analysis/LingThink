@@ -35,6 +35,7 @@
 	"dependencies": {
 		"@mdi/js": "^5.9.55",
 		"qiankun": "^2.4.4",
+		"svelte-i18n": "^3.3.9",
 		"svelte-materialify": "^0.3.11",
 		"systemjs": "^6.10.2"
 	}

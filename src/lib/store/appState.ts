@@ -17,7 +17,8 @@ interface AppConfig {
 const appConfig = <Writable<AppConfig>>writable({
 	name: '大数据图可视分析',
 	type: 'QIANKUN',
-	configURL: 'https://cdn.jsdelivr.net/npm/json/package.json'
+	configURL: 'https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json',
+	splashScreenVedio: 'loading.mp4'
 });
 
 export { appConfig, MicroAppType };
