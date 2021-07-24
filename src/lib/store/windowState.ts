@@ -16,12 +16,14 @@ type WindowConfig = {
 	collapsed: boolean;
 	mode: Mode;
 	language: Language;
+	currentApp: string;
 };
 
 const defaultwindowConfig: WindowConfig = {
 	collapsed: false,
 	mode: Mode.HOME,
-	language: Language[getLocaleFromNavigator()?.replace('-', '_')]
+	language: Language[getLocaleFromNavigator()?.replace('-', '_')],
+	currentApp: undefined
 };
 
 const windowConfig = <Writable<WindowConfig>>writable(defaultwindowConfig);

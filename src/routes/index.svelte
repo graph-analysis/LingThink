@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { Card, CardText, CardActions, Button } from 'svelte-materialify';
-	import { windowConfig, Mode } from '$lib/store';
+	import { windowConfig, Mode, appConfig } from '$lib/store';
 	const toApp = () => {
 		$windowConfig.mode = Mode.MICRO_APP;
+		$windowConfig.currentApp = $appConfig.name;
 	};
 </script>
 

@@ -11,7 +11,7 @@
 <MaterialApp>
 	{#if !$isLoading}
 		<div class="page" in:blur={{ duration: 200 }}>
-			<AppBar />
+			<AppBar windowConfig={$windowConfig} />
 
 			<div class="container">
 				{#if $windowConfig.mode === Mode.HOME}
