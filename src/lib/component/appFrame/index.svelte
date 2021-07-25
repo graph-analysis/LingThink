@@ -59,7 +59,7 @@
 			</div>
 		{/if}
 	{:catch error}
-		{error.name} {error.message}
+		{error}
 	{/await}
 </div>
 

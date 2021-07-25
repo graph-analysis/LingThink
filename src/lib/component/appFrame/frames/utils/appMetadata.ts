@@ -1,5 +1,7 @@
 import type { AppConfig } from '$lib/store/appState';
 import { AppLoadError } from '$lib/error';
+import { _ } from 'svelte-i18n';
+
 interface Source {
 	domain: string;
 	baseURL: string;
@@ -8,19 +10,31 @@ interface Source {
 
 // 输入pakage.json或plugin.json
 class AppMetadata {
+	// 应用的源配置
 	private source: Source;
+
+	// 除了域名外的前辍，用于资源在非根路由下加载
 	private baseURL: string;
+
+	// 应用入口点
 	entryURL: string;
+
+	// 应用中心中的应用配置信息
 	appConfig: AppConfig;
+
 	async init(appConfig: AppConfig) {
 		this.appConfig = appConfig;
 
+		// 初始化
 		if (appConfig.configURL.endsWith('package.json')) {
 			// pkgjson模式初始化
 			await this.getPkgMetadata(appConfig.configURL);
 		} else {
 			throw new AppLoadError('目前支持 package.json 模式');
 		}
+
+		// 验证
+		this.valid();
 
 		return this;
 	}
@@ -58,6 +72,19 @@ class AppMetadata {
 		}
 
 		return str;
+	}
+
+	// 验证
+	private valid() {
+		const localhost = ['localhost', '127.0.0.1', '::1', '0.0.0.0'];
+		// 验证域名是否违法
+		if (
+			!localhost.includes(document.domain) &&
+			this.appConfig.lockedDomain !== undefined &&
+			!this.appConfig.lockedDomain.includes(document.domain)
+		) {
+			throw new AppLoadError('应用域名锁定限制');
+		}
 	}
 
 	// 微应用在非根路由的情况下需要自定义fetch请求静态文件

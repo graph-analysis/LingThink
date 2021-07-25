@@ -1,6 +1,6 @@
 class BaseError extends Error {
 	constructor(name: string, message: string) {
-		super(`[${name}] ${message}`);
+		super(message);
 		this.name = name;
 	}
 }
