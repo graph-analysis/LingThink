@@ -24,6 +24,7 @@
 		"husky": "^7.0.1",
 		"prettier": "~2.3.2",
 		"prettier-plugin-svelte": "^2.3.1",
+		"rollup-plugin-node-polyfills": "^0.2.1",
 		"sass": "^1.36.0",
 		"svelte": "^3.40.2",
 		"svelte-check": "^2.2.3",
@@ -34,7 +35,8 @@
 	"type": "module",
 	"dependencies": {
 		"@mdi/js": "^5.9.55",
-		"pouchdb-adapter-indexeddb": "^7.2.1",
+		"leveldown": "^6.0.0",
+		"pouchdb-adapter-leveldb": "^7.2.2",
 		"qiankun": "^2.4.4",
 		"rxdb": "^10.0.2",
 		"rxjs": "^7.2.0",

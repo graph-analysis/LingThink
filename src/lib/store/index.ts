@@ -1,32 +1,22 @@
-// const window = globalThis;
-// const global = globalThis;
-// console.log(globalThis);
-import * as indexeddb from 'pouchdb-adapter-indexeddb'
-import { createRxDatabase, addRxPlugin } from 'rxdb/plugins/core'
-import { addPouchPlugin, getRxStoragePouch } from 'rxdb/plugins/pouchdb'
-import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
+import leveldown from 'leveldown'
+import { addPouchPlugin, createRxDatabase, getRxStoragePouch, removeRxDatabase } from 'rxdb'
+import * as ldb from 'pouchdb-adapter-leveldb/lib'
 
-addPouchPlugin(indexeddb)
-
-if (process.env.NODE_ENV === 'development') {
-	// in dev-mode we add the dev-mode plugin
-	// which does many checks and adds full error messages
-	addRxPlugin(RxDBDevModePlugin)
+addPouchPlugin(ldb)
+let ddb
+// create the database with the storage creator.
+const db = async () => {
+	ddb = ddb
+		? ddb
+		: await createRxDatabase({
+				name: 'mydata',
+				storage: getRxStoragePouch(leveldown),
+				ignoreDuplicate: true
+		  })
+	return ddb
 }
 
-let dbPromise
+console.log(db())
 
-const _create = async () => {
-	const db = await createRxDatabase({
-		name: 'rxdbdemo',
-		storage: getRxStoragePouch('indexeddb'),
-		ignoreDuplicate: true
-	})
-	await db.addCollections({ notes: { schema: undefined } })
-	dbPromise = db
-	return dbPromise ? dbPromise : db
-}
-
-_create()
 export * from './appState'
 export * from './windowState'
