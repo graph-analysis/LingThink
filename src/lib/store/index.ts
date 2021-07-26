@@ -1,6 +1,5 @@
-import leveldown from 'leveldown'
 import { addPouchPlugin, createRxDatabase, getRxStoragePouch, removeRxDatabase } from 'rxdb'
-import * as ldb from 'pouchdb-adapter-leveldb/lib'
+import * as ldb from 'pouchdb-adapter-leveldb'
 
 addPouchPlugin(ldb)
 let ddb
@@ -10,7 +9,7 @@ const db = async () => {
 		? ddb
 		: await createRxDatabase({
 				name: 'mydata',
-				storage: getRxStoragePouch(leveldown),
+				storage: getRxStoragePouch('leveldb'),
 				ignoreDuplicate: true
 		  })
 	return ddb

@@ -1,6 +1,5 @@
 import preprocess from 'svelte-preprocess'
 import adapter from '@sveltejs/adapter-node'
-import polyfill from 'rollup-plugin-node-polyfills'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -11,9 +10,6 @@ const config = {
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
-		vite: {
-			plugins: [polyfill()]
-		},
 		adapter: adapter({
 			out: 'build',
 			precompress: true,
