@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { AppBar, Checkbox, Button, Icon } from 'svelte-materialify';
-	import { mdiMenu } from '@mdi/js';
-	import type { WindowConfig } from '$lib/store';
-	import { _ } from 'svelte-i18n';
+	import { AppBar, Checkbox, Button, Icon } from 'svelte-materialify'
+	import { mdiMenu } from '@mdi/js'
+	import type { WindowConfig } from '$lib/store'
+	import { _ } from 'svelte-i18n'
 
-	export let windowConfig: WindowConfig;
+	export let windowConfig: WindowConfig
 </script>
 
 <AppBar collapsed={windowConfig.collapsed} class="primary-color theme--dark">

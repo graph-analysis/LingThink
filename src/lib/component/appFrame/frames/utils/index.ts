@@ -1,2 +1,2 @@
-export { appMetadataGetter, AppMetadata } from './appMetadata';
-export { prefetchApp } from './prefetchApp';
+export { appMetadataGetter, AppMetadata } from './appMetadata'
+export { prefetchApp } from './prefetchApp'

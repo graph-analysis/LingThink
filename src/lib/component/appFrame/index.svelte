@@ -1,35 +1,35 @@
 <script context="module" lang="ts">
-	import { fade } from 'svelte/transition';
-	import { ProgressCircular } from 'svelte-materialify';
-	import AutoFrame from './frames/index.svelte';
-	import { appMetadataGetter, prefetchApp } from './frames';
-	import { windowConfig } from '$lib/store';
-	import type { AppConfig } from '$lib/store';
+	import { fade } from 'svelte/transition'
+	import { ProgressCircular } from 'svelte-materialify'
+	import AutoFrame from './frames/index.svelte'
+	import { appMetadataGetter, prefetchApp } from './frames'
+	import { windowConfig } from '$lib/store'
+	import type { AppConfig } from '$lib/store'
 </script>
 
 <script lang="ts">
-	export let appConfig: AppConfig;
+	export let appConfig: AppConfig
 
-	const splashScreenVedio: string = appConfig.splashScreenVedio;
+	const splashScreenVedio: string = appConfig.splashScreenVedio
 
 	// 空字符串或未定义url就不播放
-	let showLoadingVedio = splashScreenVedio === '' || splashScreenVedio === undefined ? false : true;
-	let loadingVisible = false;
-	let loadOK = false;
+	let showLoadingVedio = splashScreenVedio === '' || splashScreenVedio === undefined ? false : true
+	let loadingVisible = false
+	let loadOK = false
 
 	const getAppMetadata = async () => {
 		// 开始loading
-		loadingVisible = true;
+		loadingVisible = true
 		// 在动画时预取应用
-		const appMetadata = await appMetadataGetter(appConfig);
-		await prefetchApp(appMetadata);
-		return appMetadata;
-	};
+		const appMetadata = await appMetadataGetter(appConfig)
+		await prefetchApp(appMetadata)
+		return appMetadata
+	}
 
 	$: if (loadOK) {
 		// 结束loading并最小化appbar
-		loadingVisible = false;
-		$windowConfig.collapsed = true;
+		loadingVisible = false
+		$windowConfig.collapsed = true
 	}
 </script>
 
@@ -45,7 +45,7 @@
 				transition:fade
 				on:ended={() => {
 					// 播放完毕自动消失
-					showLoadingVedio = false;
+					showLoadingVedio = false
 				}}
 			/>
 		{:else}
