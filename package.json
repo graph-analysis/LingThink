@@ -34,7 +34,7 @@
 	"type": "module",
 	"dependencies": {
 		"@mdi/js": "^5.9.55",
-		"pouchdb-adapter-leveldb": "^7.2.2",
+		"pouchdb-adapter-indexeddb": "^7.2.1",
 		"qiankun": "^2.4.4",
 		"rxdb": "^10.0.2",
 		"rxjs": "^7.2.0",
