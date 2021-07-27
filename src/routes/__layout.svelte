@@ -1,7 +1,6 @@
 <script lang="ts">
-	import AppBar from '$lib/component/appBar/index.svelte'
+	import { AppBar, AppFrame, AppHome } from '$lib/component/index'
 	import { MaterialApp } from 'svelte-materialify'
-	import AppFrame from '$lib/component/appFrame/index.svelte'
 	import { appConfig, windowConfig, Mode } from '$lib/store'
 	import { isLoading } from 'svelte-i18n'
 	import { blur } from 'svelte/transition'
@@ -15,7 +14,7 @@
 
 			<div class="container">
 				{#if $windowConfig.mode === Mode.HOME}
-					<slot />
+					<AppHome />
 				{:else if $windowConfig.mode === Mode.MICRO_APP}
 					<AppFrame appConfig={$appConfig} />
 				{/if}
