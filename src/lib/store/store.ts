@@ -1,7 +1,5 @@
 // stores.js
 import Gun from 'gun/gun'
-import type { IGunChainReference } from 'gun/types/chain'
-import type { AlwaysDisallowedType, ArrayAsRecord } from 'gun/types/types'
 import { noop, safe_not_equal } from 'svelte/internal'
 import type { StartStopNotifier, Subscriber, Unsubscriber, Updater, Writable } from 'svelte/store'
 import { defaultAppConfig } from './appState'
