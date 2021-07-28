@@ -1,5 +1,3 @@
-import { writable } from 'svelte/store'
-import type { Writable } from 'svelte/store'
 import { getLocaleFromNavigator } from 'svelte-i18n'
 
 enum Mode {
@@ -26,8 +24,6 @@ const defaultwindowConfig: WindowConfig = {
 	currentApp: null
 }
 
-const windowConfig = <Writable<WindowConfig>>writable(defaultwindowConfig)
-
-export { windowConfig, Mode, defaultwindowConfig, Language }
+export { Mode, defaultwindowConfig, Language }
 
 export type { WindowConfig }

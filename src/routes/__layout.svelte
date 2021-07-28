@@ -1,27 +1,27 @@
 <script lang="ts">
 	import { AppBar, AppFrame, AppHome } from '$lib/component/index'
 	import { MaterialApp } from 'svelte-materialify'
-	import { appConfig, windowConfig, Mode } from '$lib/store'
+	import { globalConfig, Mode } from '$lib/store'
 	import { isLoading } from 'svelte-i18n'
 	import { blur } from 'svelte/transition'
 	import '$lib/i18n/index'
 </script>
 
-<MaterialApp>
-	{#if !$isLoading}
+{#if !$isLoading}
+	<MaterialApp>
 		<div class="page" in:blur={{ duration: 200 }}>
-			<AppBar windowConfig={$windowConfig} />
+			<AppBar windowConfig={$globalConfig.windowConfig} />
 
 			<div class="container">
-				{#if $windowConfig.mode === Mode.HOME}
+				{#if $globalConfig.windowConfig.mode === Mode.HOME}
 					<AppHome />
-				{:else if $windowConfig.mode === Mode.MICRO_APP}
-					<AppFrame appConfig={$appConfig} />
+				{:else if $globalConfig.windowConfig.mode === Mode.MICRO_APP}
+					<AppFrame appConfig={$globalConfig.appConfig} />
 				{/if}
 			</div>
 		</div>
-	{/if}
-</MaterialApp>
+	</MaterialApp>
+{/if}
 
 <style>
 	.page {

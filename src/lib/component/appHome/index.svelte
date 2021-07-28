@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { Card, CardText, CardActions, Button } from 'svelte-materialify'
-	import { windowConfig, Mode, appConfig } from '$lib/store'
-	import { messages } from '$lib/store'
+	import { globalConfig, Mode } from '$lib/store'
+
 	const toApp = () => {
-		$windowConfig.mode = Mode.MICRO_APP
-		$windowConfig.currentApp = $appConfig.name
+		$globalConfig.windowConfig.mode = Mode.MICRO_APP
+		$globalConfig.windowConfig.currentApp = $globalConfig.appConfig.name
 	}
 
 	const c = () => {
-		$messages
+		$globalConfig.windowConfig.currentApp = '大数据图可视分析'
 	}
 </script>
 
@@ -31,4 +31,4 @@
 	</Card>
 </div>
 <button on:click={c}>aadf</button>
-{JSON.stringify($messages, null, '\t')}
+{JSON.stringify($globalConfig, null, '\t')}
