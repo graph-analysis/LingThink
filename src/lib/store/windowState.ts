@@ -23,7 +23,7 @@ const defaultwindowConfig: WindowConfig = {
 	collapsed: false,
 	mode: Mode.HOME,
 	language: Language[getLocaleFromNavigator()?.replace('-', '_')],
-	currentApp: undefined
+	currentApp: null
 }
 
 const windowConfig = <Writable<WindowConfig>>writable(defaultwindowConfig)

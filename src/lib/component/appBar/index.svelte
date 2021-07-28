@@ -14,7 +14,7 @@
 		</Button>
 	</div>
 	<span slot="title"
-		>{windowConfig.currentApp === undefined ? $_('LingThink') : windowConfig.currentApp}</span
+		>{windowConfig.currentApp === null ? $_('LingThink') : windowConfig.currentApp}</span
 	>
 	<div style="flex-grow:1" />
 	<Checkbox bind:checked={windowConfig.collapsed} />

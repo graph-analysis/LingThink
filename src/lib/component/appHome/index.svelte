@@ -6,6 +6,10 @@
 		$windowConfig.mode = Mode.MICRO_APP
 		$windowConfig.currentApp = $appConfig.name
 	}
+
+	const c = () => {
+		$messages.peerAddr = '127.0.0.1'
+	}
 </script>
 
 <!-- todo: 构建应用列表视图，商店、订阅 -->
@@ -26,4 +30,5 @@
 		</CardActions>
 	</Card>
 </div>
-{JSON.stringify($messages)}
+<button on:click={c}>aadf</button>
+{JSON.stringify($messages, null, '\t')}

@@ -13,7 +13,8 @@
 	const splashScreenVedio: string = appConfig.splashScreenVedio
 
 	// 空字符串或未定义url就不播放
-	let showLoadingVedio = splashScreenVedio === '' || splashScreenVedio === undefined ? false : true
+	let showLoadingVedio =
+		splashScreenVedio === null || splashScreenVedio === undefined ? false : true
 	let loadingVisible = false
 	let loadOK = false
 

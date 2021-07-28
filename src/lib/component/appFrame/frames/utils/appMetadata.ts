@@ -80,7 +80,7 @@ class AppMetadata {
 		// 验证域名是否违法
 		if (
 			!localhost.includes(document.domain) &&
-			this.appConfig.lockedDomain !== undefined &&
+			this.appConfig.lockedDomain !== null &&
 			!this.appConfig.lockedDomain.includes(document.domain)
 		) {
 			throw new AppLoadError('应用域名锁定限制')

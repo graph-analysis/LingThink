@@ -67,33 +67,28 @@ const subscriber_queue = []
 // }
 
 export function writable<T>(
-	ref: any,
+	gun: any,
 	value?: T,
 	start: StartStopNotifier<T> = noop,
 	methods = {}
 ): Writable<T> {
-	let store: T
 	let stop: Unsubscriber
 	const subscribers: Set<SubscribeInvalidateTuple<T>> = new Set()
+	const ref = gun.map()
 
 	// Add a listener to GUN data
 	ref.on((data: T, key: string | number) => {
-		if (ref._.get === key) {
-			// 从 gun.get() 中获取数据, 否则调用 map() 获取数据
-			store = data
-		} else if (!data) {
-			// 输入 undefined 则删除值
-			delete store[key]
-		} else {
-			store[key] = data
-		}
-		// Tell each subscriber that data has been updated
-		set(store)
-	})
-
-	function set(new_value: T): void {
-		if (safe_not_equal(value, new_value)) {
-			value = new_value
+		if (safe_not_equal(value, data)) {
+			if (ref._.get === key) {
+				// 从 gun.get() 中获取数据, 否则调用 map() 获取数据
+				value = data
+			} else if (!data) {
+				// 输入 undefined 则删除值
+				delete value[key]
+			} else {
+				value[key] = data
+			}
+			// Tell each subscriber that data has been updated
 			if (stop) {
 				// 向订阅者推送数据
 				const run_queue = !subscriber_queue.length
@@ -109,6 +104,12 @@ export function writable<T>(
 				}
 			}
 		}
+	})
+
+	function set(new_value: T): void {
+		console.log(new_value)
+
+		gun.set(new_value)
 	}
 
 	function update(fn: Updater<T>): void {
@@ -141,7 +142,9 @@ export function writable<T>(
 	return { ...methods, set, update, subscribe }
 }
 
-const gun = Gun<GlobalConfig>()
+const gun = Gun()
+
+console.log(gun.get('peerAddr'))
 
 export const messages = writable<GlobalConfig>(gun, {
 	windowConfig: defaultwindowConfig,
