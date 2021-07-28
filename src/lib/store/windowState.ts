@@ -28,6 +28,6 @@ const defaultwindowConfig: WindowConfig = {
 
 const windowConfig = <Writable<WindowConfig>>writable(defaultwindowConfig)
 
-export { windowConfig, Mode, defaultwindowConfig }
+export { windowConfig, Mode, defaultwindowConfig, Language }
 
 export type { WindowConfig }

@@ -9,12 +9,38 @@ import type { AppConfig } from './appState'
 import { defaultwindowConfig, WindowConfig } from './windowState'
 
 interface GlobalConfig {
-	peerAddr?: string[] | string
-	appConfig: AppConfig
-	windowConfig: WindowConfig
+	globalConfig: {
+		appConfig: AppConfig
+		windowConfig: WindowConfig
+		test?: { name: string }
+	}
 }
 
 const subscriber_queue = []
+
+// Gun.chain['subscribe'] = function (publish) {
+// 	var gun = this
+// 	var at = gun._
+// 	var isMap = !!at && !!at.back && !!at.back.each
+
+// 	if (isMap) {
+// 		var store = new Map()
+// 		publish(Array.from(store))
+// 		gun = gun.on((data, _key, as) => {
+// 			var key = _key || ((data || {})._ || {})['#'] || as.via.soul
+// 			if (data === null) {
+// 				store.delete(key)
+// 			} else {
+// 				store.set(key, data)
+// 			}
+// 			publish(Array.from(store))
+// 		})
+// 	} else {
+// 		gun = gun.on((data) => publish(data))
+// 	}
+
+// 	return gun.off
+// }
 
 // function configStore(ref: any, methods = {}) {
 // 	let store = {}
@@ -76,40 +102,48 @@ export function writable<T>(
 	const subscribers: Set<SubscribeInvalidateTuple<T>> = new Set()
 	const ref = gun.map()
 
-	// Add a listener to GUN data
-	ref.on((data: T, key: string | number) => {
-		if (safe_not_equal(value, data)) {
-			if (ref._.get === key) {
-				// 从 gun.get() 中获取数据, 否则调用 map() 获取数据
-				value = data
-			} else if (!data) {
-				// 输入 undefined 则删除值
-				delete value[key]
-			} else {
-				value[key] = data
+	const updateVisual = () => {
+		// Tell each subscriber that data has been updated
+		if (stop) {
+			// 向订阅者推送数据
+			const run_queue = !subscriber_queue.length
+			for (const subscriber of subscribers) {
+				subscriber[1]()
+				subscriber_queue.push(subscriber, value)
 			}
-			// Tell each subscriber that data has been updated
-			if (stop) {
-				// 向订阅者推送数据
-				const run_queue = !subscriber_queue.length
-				for (const subscriber of subscribers) {
-					subscriber[1]()
-					subscriber_queue.push(subscriber, value)
+			if (run_queue) {
+				for (let i = 0; i < subscriber_queue.length; i += 2) {
+					subscriber_queue[i][0](subscriber_queue[i + 1])
 				}
-				if (run_queue) {
-					for (let i = 0; i < subscriber_queue.length; i += 2) {
-						subscriber_queue[i][0](subscriber_queue[i + 1])
-					}
-					subscriber_queue.length = 0
-				}
+				subscriber_queue.length = 0
 			}
 		}
+	}
+	// TODO: 从储存中取初始值
+	// ref.once((data) => (value = data))
+
+	// todo: 如果 GUNDB 更新同步到 value 并更新视图
+	// Add a listener to GUN data
+	ref.on((data: T, key: string | number) => {
+		if (ref._.get === key) {
+			// 从 gun.get() 中获取数据, 否则调用 map() 获取数据
+			value = data
+		} else if (!data) {
+			// 输入 undefined 则删除值
+			delete value[key]
+		} else {
+			value[key] = data
+		}
+		// Tell each subscriber that data has been updated
+		updateVisual()
 	})
 
 	function set(new_value: T): void {
-		console.log(new_value)
-
-		gun.set(new_value)
+		if (safe_not_equal(value, new_value)) {
+			value = new_value
+			updateVisual()
+			gun.put(new_value)
+		}
 	}
 
 	function update(fn: Updater<T>): void {
@@ -142,11 +176,21 @@ export function writable<T>(
 	return { ...methods, set, update, subscribe }
 }
 
-const gun = Gun()
+const globalConfig = new Gun<GlobalConfig>()
 
-console.log(gun.get('peerAddr'))
+// gun
+// 	.get('globalConfig')
+// 	.map()
+// 	.on(function (node) {
+// 		console.log(node)
+// 	})
+// gun.get('globalConfig').get('test').get('name').put('127.0.0.1')
 
-export const messages = writable<GlobalConfig>(gun, {
-	windowConfig: defaultwindowConfig,
-	appConfig: defaultAppConfig
-})
+const defaultconfig = {
+	globalConfig: {
+		windowConfig: defaultwindowConfig,
+		appConfig: defaultAppConfig
+	}
+}
+
+export const messages = writable<GlobalConfig>(globalConfig.get('globalConfig'), defaultconfig)
