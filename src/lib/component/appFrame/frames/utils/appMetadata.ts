@@ -1,4 +1,4 @@
-import type { AppConfig } from '$lib/store/appState'
+import type { AppConfig } from '$lib/store'
 import { AppLoadError } from '$lib/error'
 
 /**应用CDN源信息映射

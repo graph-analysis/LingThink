@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import QiankunFrame from './qiankun/index.svelte'
 	import WebComponentFrame from './webComponent/index.svelte'
-	import { MicroAppType } from '$lib/store/appState'
+	import { MicroAppType } from '$lib/store'
 	import { onMount } from 'svelte'
 	import type { AppMetadata } from './index'
 </script>
