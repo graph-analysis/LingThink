@@ -1,6 +1,5 @@
 import type { AppConfig } from '$lib/store/appState'
 import { AppLoadError } from '$lib/error'
-import { _ } from 'svelte-i18n'
 
 /**应用CDN源信息映射
  * domain CDN 的域名
