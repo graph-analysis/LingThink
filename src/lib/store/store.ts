@@ -1,4 +1,3 @@
-// stores.js
 import Gun from 'gun/gun.js'
 import 'gun/lib/not.js'
 import { noop, safe_not_equal } from 'svelte/internal'
@@ -12,7 +11,6 @@ import { defaultwindowConfig, WindowConfig } from './windowState'
 interface GlobalConfig {
 	appConfig: AppConfig
 	windowConfig: WindowConfig
-	loadOK: boolean
 }
 
 interface GunData {
@@ -115,8 +113,7 @@ const configStoreInit = <T>(defaultConfig: T, start: StartStopNotifier<T> = noop
 
 const defaultGlobalConfig: GlobalConfig = {
 	windowConfig: defaultwindowConfig,
-	appConfig: defaultAppConfig,
-	loadOK: true
+	appConfig: defaultAppConfig
 }
 
 export const globalConfig = configStoreInit<GlobalConfig>(defaultGlobalConfig)
