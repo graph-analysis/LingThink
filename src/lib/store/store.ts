@@ -24,11 +24,12 @@ const subscriber_queue = []
 
 export function writableGun<T>(
 	ref: any,
+	defaultAppConfig?: T,
 	start: StartStopNotifier<T> = noop,
 	methods = {}
 ): Writable<T> {
 	let stop: Unsubscriber
-	let store = <T>{}
+	let store = defaultAppConfig || <T>{}
 	const subscribers: Set<SubscribeInvalidateTuple<T>> = new Set()
 
 	const updateVisual = () => {
@@ -109,7 +110,7 @@ const configStoreInit = <T>(defaultConfig: T, start: StartStopNotifier<T> = noop
 		globalConfigStore.put(defaultConfig)
 	})
 
-	return writableGun<T>(globalConfigStore.map(), start, methods)
+	return writableGun<T>(globalConfigStore.map(), defaultConfig, start, methods)
 }
 
 const defaultGlobalConfig: GlobalConfig = {

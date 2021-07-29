@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AppBar, AppFrame, AppHome } from '$lib/component/index'
+	import { AppBar, AppFrame } from '$lib/component/index'
 	import { MaterialApp } from 'svelte-materialify'
 	import { globalConfig, Mode } from '$lib/store'
 	import { isLoading } from 'svelte-i18n'
@@ -14,7 +14,7 @@
 
 			<div class="container">
 				{#if $globalConfig.windowConfig.mode === Mode.HOME}
-					<AppHome />
+					<slot />
 				{:else if $globalConfig.windowConfig.mode === Mode.MICRO_APP}
 					<AppFrame appConfig={$globalConfig.appConfig} />
 				{/if}
