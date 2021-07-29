@@ -15,7 +15,9 @@
 	// 空字符串或未定义url就不播放
 	let showLoadingVedio =
 		splashScreenVedio === null || splashScreenVedio === undefined ? false : true
+	// 加载动画是否显示
 	let loadingVisible = false
+	// 加载完毕
 	let loadOK = false
 
 	const getAppMetadata = async () => {
@@ -28,8 +30,9 @@
 	}
 
 	$: if (loadOK) {
-		// 结束loading并最小化appbar
+		// 结束loading
 		loadingVisible = false
+		// 最小化appbar
 		$globalConfig.windowConfig.collapsed = true
 	}
 </script>

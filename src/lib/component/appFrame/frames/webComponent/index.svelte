@@ -15,4 +15,7 @@
 	})
 </script>
 
+<!-- web component插件框架 -->
+
+
 <!-- <svelte:element tag={appMetadata.appConfig.name}/> -->

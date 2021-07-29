@@ -6,10 +6,6 @@
 		$globalConfig.windowConfig.mode = Mode.MICRO_APP
 		$globalConfig.windowConfig.currentApp = $globalConfig.appConfig.name
 	}
-
-	const c = () => {
-		$globalConfig.windowConfig.currentApp = '大数据图可视分析'
-	}
 </script>
 
 <!-- todo: 构建应用列表视图，商店、订阅 -->
@@ -30,5 +26,3 @@
 		</CardActions>
 	</Card>
 </div>
-<button on:click={c}>aadf</button>
-{JSON.stringify($globalConfig, null, '\t')}

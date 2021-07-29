@@ -10,13 +10,14 @@ const config = {
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
-		// todo: 在 GUNstore 加载完毕之前先使用临时储存
+		// 纯静态输出
 		adapter: adapter({
 			// default options are shown
 			pages: 'build',
 			assets: 'build',
 			fallback: null
 		})
+		// 输出 Node.js 
 		// adapter: adapter({
 		// 	out: 'build',
 		// 	precompress: true,

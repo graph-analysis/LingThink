@@ -1,3 +1,4 @@
+<!-- 乾坤插件框架 -->
 <script context="module" lang="ts">
 	import type { MicroApp } from 'qiankun'
 	import { onMount } from 'svelte'

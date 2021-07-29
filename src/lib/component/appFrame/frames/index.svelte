@@ -13,6 +13,7 @@
 	let AppFrame: any
 
 	onMount(async () => {
+		// 自动根据应用类型加载插件框架
 		switch (appMetadata.appConfig.type) {
 			case MicroAppType.QIANKUN:
 				AppFrame = QiankunFrame

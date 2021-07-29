@@ -1,5 +1,6 @@
 import type { AppMetadata } from '../utils/appMetadata'
 
+// 应用预加载接口
 const prefetchApp = async (appMetadata: AppMetadata) => {
 	const { prefetchApps } = await import('qiankun')
 	const entry = appMetadata.entryURL
