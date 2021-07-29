@@ -31,7 +31,7 @@ class AppMetadata {
 	// 应用中心中的应用配置信息
 	appConfig: AppConfig
 
-	/**元信息解析器初始化并验证
+	/**解析元信息初始化并验证
 	 * 可添加解析插件进行拓展
 	 * @param {AppConfig} appConfig
 	 * @return {Promise<AppMetadata>}
