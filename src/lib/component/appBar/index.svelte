@@ -1,21 +1,25 @@
 <script lang="ts">
 	import { AppBar, Checkbox, Button, Icon } from 'svelte-materialify'
 	import { mdiMenu } from '@mdi/js'
-	import type { WindowConfig } from '$lib/store'
+	// import { userStore } from 'lib/store'
 	import { _ } from 'svelte-i18n'
+	import type { UserStore } from '$lib/store'
 
-	export let windowConfig: WindowConfig
+	export let userStore: UserStore
 </script>
 
-<AppBar collapsed={windowConfig.collapsed} class="primary-color theme--dark">
+<AppBar collapsed={userStore.state.runtimeState.collapsed} class="primary-color theme--dark">
 	<div slot="icon">
 		<Button depressed fab text>
 			<Icon path={mdiMenu} />
 		</Button>
 	</div>
+	<!-- todo: 获取appname -->
 	<span slot="title"
-		>{windowConfig.currentApp === null ? $_('LingThink') : windowConfig.currentApp}</span
+		>{userStore.state.runtimeState.currentAppID === null
+			? $_('LingThink')
+			: userStore.state.runtimeState.currentAppID}</span
 	>
 	<div style="flex-grow:1" />
-	<Checkbox bind:checked={windowConfig.collapsed} />
+	<Checkbox bind:checked={userStore.state.runtimeState.collapsed} />
 </AppBar>

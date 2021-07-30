@@ -1,4 +1,4 @@
-import type { AppConfig } from '$lib/store'
+import type { AppConfig, UserStore } from '$lib/store'
 import { AppLoadError } from '$lib/error'
 
 /**应用CDN源信息映射
@@ -32,23 +32,23 @@ class AppMetadata {
 
 	/**解析元信息初始化并验证
 	 * 可添加解析插件进行拓展
-	 * @param {AppConfig} appConfig
+	 * @param {GlobalConfig} globalConfig
 	 * @return {Promise<AppMetadata>}
 	 * @memberof AppMetadata
 	 */
-	async init(appConfig: AppConfig): Promise<AppMetadata> {
+	async init(appConfig: AppConfig, userStore: UserStore): Promise<AppMetadata> {
 		this.appConfig = appConfig
 
 		// 初始化
-		if (appConfig.configURL.endsWith('package.json')) {
+		if (this.appConfig.configURL.endsWith('package.json')) {
 			// pkgjson模式初始化
-			await this.getPkgMetadata(appConfig.configURL)
+			await this.getPkgMetadata(this.appConfig.configURL)
 		} else {
 			throw new AppLoadError('目前支持 package.json 模式')
 		}
 
 		// 验证
-		this.valid()
+		this.valid(userStore)
 
 		return this
 	}
@@ -89,16 +89,21 @@ class AppMetadata {
 	}
 
 	// 验证应用合法性
-	private valid() {
-		const localhost = ['localhost', '127.0.0.1', '::1', '0.0.0.0']
-		// 验证域名是否违法
-		if (
-			!localhost.includes(document.domain) &&
-			this.appConfig.lockedDomain !== null &&
-			!this.appConfig.lockedDomain.includes(document.domain)
-		) {
-			throw new AppLoadError('应用域名锁定限制')
+	private valid(userStore: UserStore) {
+		const validDomain = () => {
+			const localhost = ['localhost', '127.0.0.1', '::1', '0.0.0.0']
+			const currentDomain = userStore.state.runtimeState.currentDomain
+			if (
+				!localhost.includes(currentDomain) &&
+				this.appConfig.lockedDomain !== null &&
+				!this.appConfig.lockedDomain.includes(currentDomain)
+			) {
+				throw new AppLoadError('应用域名锁定限制')
+			}
 		}
+
+		// 验证应用域名是否合法
+		validDomain()
 	}
 
 	// 微应用在非根路由的情况下需要自定义fetch请求静态文件
@@ -124,8 +129,9 @@ class AppMetadata {
 }
 
 /**从URL配置中获取应用元信息
- * @param {AppConfig} appConfig app配置
+ * @param {GlobalConfig} globalConfig 配置
  */
-const appMetadataGetter = (appConfig: AppConfig) => new AppMetadata().init(appConfig)
+const appMetadataGetter = (appConfig: AppConfig, userStore: UserStore) =>
+	new AppMetadata().init(appConfig, userStore)
 
 export { appMetadataGetter, AppMetadata }

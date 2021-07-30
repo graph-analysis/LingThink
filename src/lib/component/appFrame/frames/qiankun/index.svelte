@@ -21,8 +21,7 @@
 			{
 				name: appMetadata.appConfig.name,
 				entry,
-				container,
-				props: appMetadata.appConfig.data
+				container
 			},
 			{
 				fetch: customFetch

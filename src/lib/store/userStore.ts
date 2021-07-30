@@ -2,20 +2,34 @@ import Gun from 'gun/gun.js'
 import 'gun/lib/not.js'
 import { noop, safe_not_equal } from 'svelte/internal'
 import type { StartStopNotifier, Subscriber, Unsubscriber, Updater, Writable } from 'svelte/store'
-import { defaultAppConfig } from './appState'
-import type { AppConfig } from './appState'
-import { defaultwindowConfig, WindowConfig } from './windowState'
+import type { AppState } from './appState'
+import { defaultRuntimeState, RuntimeState } from './runtimeState'
+import { defaultWindowConfig, WindowConfig } from './windowConfig'
 type Invalidator<T> = (value?: T) => void
 type SubscribeInvalidateTuple<T> = [Subscriber<T>, Invalidator<T>]
 
-/**全局应用配置信息
- * appConfig 当前应用配置信息
- * windowConfig 窗口配置信息
- * @interface GlobalConfig
+/**用户个人同步信息<todo: 加密>
+ * --- config 配置
+ * 	windowConfig 窗口配置
+ *
+ * --- state 状态
+ * 	appState 应用状态
+ * 	runtimeState 运行时信息
+ *
+ * @interface UserStore
  */
-interface GlobalConfig {
-	appConfig: AppConfig
+interface UserStore {
+	config: Config
+	state: State
+}
+
+interface Config {
 	windowConfig: WindowConfig
+}
+
+interface State {
+	runtimeState: RuntimeState
+	appState: AppState
 }
 
 /**GunDB 同步数据库
@@ -23,10 +37,33 @@ interface GlobalConfig {
  * @interface GunData
  */
 interface GunData {
-	globalConfig: GlobalConfig
+	userStore: UserStore
+	sourceStore: {}
 }
 
-const gun = new Gun<GunData>()
+// const initDatabase = (obj: any, gun: any) => {
+// 	// 如果不存在则存下
+// 	const putIfNot = (defaultValue: any, gun: any) =>
+// 		gun.not((e: any) => {
+// 			if (process.env.NODE_ENV === 'development') console.log('本地无数据,根据默认值创建:', e)
+// 			gun.put(defaultValue)
+// 		})
+
+// 	// 递归到基本类型
+// 	const searchObject = (obj: object, gun: any) => {
+// 		for (const key in obj) {
+// 			const v = obj[key]
+// 			if (v !== null) {
+// 				if (typeof v === 'object') {
+// 					searchObject(v, putIfNot(obj[key], gun.get(key)))
+// 				}
+// 			}
+// 		}
+// 	}
+
+// 	searchObject(obj, gun)
+// }
+
 const subscriber_queue = []
 
 /**GunDB 的 svelte Store 可写封装
@@ -40,12 +77,12 @@ const subscriber_queue = []
  */
 export function writableGun<T>(
 	ref: any,
-	defaultValue?: T,
+	defaultValue: T = <T>{},
 	start: StartStopNotifier<T> = noop,
 	methods: any = {}
 ): Writable<T> {
 	let stop: Unsubscriber
-	let store = defaultValue || <T>{}
+	let store = defaultValue
 	const subscribers: Set<SubscribeInvalidateTuple<T>> = new Set()
 
 	const updateVisual = () => {
@@ -66,7 +103,9 @@ export function writableGun<T>(
 		}
 	}
 
-	ref.on((data: T, key: string | number) => {
+	ref.on(async (data: T, key: string | number) => {
+		// todo: 判断是否是 obj 是则递归监听 once 且只能从树枝更新
+		console.log('数据库修改为', key, data)
 		if (ref._.get === key) {
 			// 从 gun.get() 中获取数据, 否则调用 map() 获取数据
 			store = data
@@ -81,13 +120,14 @@ export function writableGun<T>(
 	})
 
 	function set(new_value: T) {
+		// console.log('更新为', new_value)
 		if (safe_not_equal(store, new_value)) {
 			// 更新视图层数据
 			store = new_value
 			// 更新视图
 			updateVisual()
 			// 更新持久层数据
-			gun.put(new_value)
+			ref.put(new_value)
 		}
 	}
 
@@ -121,34 +161,43 @@ export function writableGun<T>(
 	return { ...methods, set, update, subscribe }
 }
 
-/** 初始化全局配置Store
+const gun = new Gun<GunData>()
+
+/** 用户个人信息同步Store
  * @template T
- * @param {T} defaultConfig
+ * @param {T} defaultUserStore
  * @param {StartStopNotifier<T>} [start=noop]
  * @param {*} [methods={}]
  * @return {*} {Writable<T>}
  */
-const configStoreInit = <T>(
-	defaultConfig: T,
+const userStoreInit = <T>(
+	defaultUserStore: T,
 	start: StartStopNotifier<T> = noop,
 	methods: any = {}
 ): Writable<T> => {
 	// 获取 globalConfig 集合
-	const globalConfigStore = gun.get('globalConfig')
+	const userStore = gun.get('userStore')
 
 	// 无值就初始化本地数据库
-	globalConfigStore.not((e) => {
+	userStore.not((e: any) => {
 		if (process.env.NODE_ENV === 'development') console.log('本地无数据,根据默认值创建:', e)
-		globalConfigStore.put(defaultConfig)
+		// .put(defaultUserStore)
+		userStore.put(defaultUserStore)
 	})
 
-	return writableGun<T>(globalConfigStore.map(), defaultConfig, start, methods)
+	return writableGun<T>(userStore.map(), defaultUserStore, start, methods)
 }
 
 // 默认配置，用于初始化应用
-const defaultGlobalConfig: GlobalConfig = {
-	windowConfig: defaultwindowConfig,
-	appConfig: defaultAppConfig
+const defaultUserStore: UserStore = {
+	config: {
+		windowConfig: defaultWindowConfig
+	},
+	state: {
+		runtimeState: defaultRuntimeState,
+		appState: <AppState>{}
+	}
 }
 
-export const globalConfig = configStoreInit<GlobalConfig>(defaultGlobalConfig)
+export type { UserStore }
+export const userStore = userStoreInit<UserStore>(defaultUserStore)
