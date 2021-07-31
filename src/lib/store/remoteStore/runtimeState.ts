@@ -3,10 +3,10 @@
  * MICRO_APP 插件应用模式
  * @enum {number}
  */
-enum Mode {
-	MAIN = 0,
-	MICRO_APP = 1
-}
+// enum Mode {
+// 	MAIN = 0,
+// 	MICRO_APP = 1
+// }
 
 /**运行状态
  * collapsed 是否最小化任务栏
@@ -15,18 +15,12 @@ enum Mode {
  * @interface RuntimeState
  */
 interface RuntimeState {
-	collapsed: boolean
-	mode: Mode
 	currentAppID: string
-	currentDomain: string
 }
 
 const defaultRuntimeState: RuntimeState = {
-	mode: Mode.MAIN,
-	collapsed: false,
-	currentAppID: null,
-	currentDomain: null
+	currentAppID: null
 }
 
 export type { RuntimeState }
-export { Mode, defaultRuntimeState }
+export { defaultRuntimeState }

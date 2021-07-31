@@ -2,13 +2,13 @@
 	import { fade } from 'svelte/transition'
 	import { ProgressCircular } from 'svelte-materialify'
 	import AutoFrame from './frames/index.svelte'
-	import { appMetadataGetter, prefetchApp } from './frames'
-	import type { UserStore, AppConfig } from '$lib/store'
+	import { appMetadataGetter } from './frames'
+	import type { AppConfig, LocalStore } from '$lib/store'
 </script>
 
 <script lang="ts">
 	export let appConfig: AppConfig
-	export let userStore: UserStore
+	export let localStore: LocalStore
 
 	const splashScreenVedio: string = appConfig.splashScreenVedio
 
@@ -24,8 +24,8 @@
 		// 开始loading
 		loadingVisible = true
 		// 在动画时预取应用
-		const appMetadata = await appMetadataGetter(appConfig, userStore)
-		await prefetchApp(appMetadata)
+		const appMetadata = await appMetadataGetter(appConfig, localStore)
+		// await prefetchApp(appMetadata)
 		return appMetadata
 	}
 
@@ -33,7 +33,7 @@
 		// 结束loading
 		loadingVisible = false
 		// 最小化appbar
-		userStore.state.runtimeState.collapsed = true
+		localStore.collapsed = true
 	}
 </script>
 

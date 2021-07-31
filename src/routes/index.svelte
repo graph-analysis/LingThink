@@ -1,11 +1,14 @@
 <script lang="ts">
-	import { userStore } from '$lib/store'
+	import { localStore, userStore } from '$lib/store'
+	import { onMount } from 'svelte'
+
+	const { ref } = userStore
+	let data
+	onMount(async () => {
+		data = await ref.get('config').then()
+	})
 </script>
 
 {JSON.stringify($userStore)}
 
-<button
-	on:click={() => {
-		$userStore
-	}}>fds</button
->
+{JSON.stringify($localStore)}

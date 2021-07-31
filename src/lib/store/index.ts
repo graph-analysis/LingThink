@@ -1,5 +1,2 @@
-export * from './appConfig'
-export * from './windowConfig'
-export * from './userStore'
-export * from './appState'
-export * from './runtimeState'
+export * from './localStore/index'
+export * from './remoteStore/index'

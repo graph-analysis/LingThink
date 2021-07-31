@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
-	import { AppConfig, userStore } from '$lib/store'
+	import type { AppConfig } from '$lib/store'
+
 	/**
 	 * @type {import('@sveltejs/kit').Load}
 	 */
@@ -7,16 +8,19 @@
 		const appID = page.params.appID
 		const r = await (await fetch('a.json')).json()
 		const appConfig: AppConfig = r?.app[appID]
-		const status = appConfig === undefined ? 404 : 200
-
-		console.log(page)
-		return { props: { status: status, appConfig: appConfig } }
+		return { props: { appConfig: appConfig, host: page.host.split(':')[0] } }
 	}
 </script>
 
 <script lang="ts">
 	import { AppFrame } from '$lib/component'
+	import { localStore } from '$lib/store'
 	export let appConfig: AppConfig
+	export let host: string
+
+	$localStore.currentDomain = host
 </script>
 
-<AppFrame userStore={$userStore} {appConfig} />
+{#if appConfig !== undefined}
+	<AppFrame bind:localStore={$localStore} {appConfig} />
+{/if}

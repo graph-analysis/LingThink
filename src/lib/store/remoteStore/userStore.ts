@@ -1,6 +1,8 @@
 import Gun from 'gun/gun.js'
 import 'gun/lib/not.js'
-import { noop, safe_not_equal } from 'svelte/internal'
+import 'gun/lib/then.js'
+import type { IGunChainReference } from 'gun/types/chain'
+import { noop } from 'svelte/internal'
 import type { StartStopNotifier, Subscriber, Unsubscriber, Updater, Writable } from 'svelte/store'
 import type { AppState } from './appState'
 import { defaultRuntimeState, RuntimeState } from './runtimeState'
@@ -13,8 +15,8 @@ type SubscribeInvalidateTuple<T> = [Subscriber<T>, Invalidator<T>]
  * 	windowConfig 窗口配置
  *
  * --- state 状态
- * 	appState 应用状态
  * 	runtimeState 运行时信息
+ * 	appState 应用状态
  *
  * @interface UserStore
  */
@@ -23,17 +25,23 @@ interface UserStore {
 	state: State
 }
 
+/**配置集合
+ * @interface Config
+ */
 interface Config {
 	windowConfig: WindowConfig
 }
 
+/**状态集合
+ * @interface State
+ */
 interface State {
 	runtimeState: RuntimeState
 	appState: AppState
 }
 
 /**GunDB 同步数据库
- * globalConfig 全局应用配置信息
+ * userStore 用户个人同步信息
  * @interface GunData
  */
 interface GunData {
@@ -41,28 +49,17 @@ interface GunData {
 	sourceStore: {}
 }
 
-// const initDatabase = (obj: any, gun: any) => {
-// 	// 如果不存在则存下
-// 	const putIfNot = (defaultValue: any, gun: any) =>
-// 		gun.not((e: any) => {
-// 			if (process.env.NODE_ENV === 'development') console.log('本地无数据,根据默认值创建:', e)
-// 			gun.put(defaultValue)
-// 		})
-
-// 	// 递归到基本类型
-// 	const searchObject = (obj: object, gun: any) => {
-// 		for (const key in obj) {
-// 			const v = obj[key]
-// 			if (v !== null) {
-// 				if (typeof v === 'object') {
-// 					searchObject(v, putIfNot(obj[key], gun.get(key)))
-// 				}
-// 			}
-// 		}
-// 	}
-
-// 	searchObject(obj, gun)
-// }
+/**Gun的可写储存
+ * methods 一些自定义方法
+ * ref gun数据库引用
+ * @interface GunWritable
+ * @extends {Writable<T>}
+ * @template T
+ */
+interface GunWritable<T> extends Writable<T> {
+	methods: Array<Function>
+	ref: IGunChainReference<T, any, 'pre_root'>
+}
 
 const subscriber_queue = []
 
@@ -80,7 +77,7 @@ export function writableGun<T>(
 	defaultValue: T = <T>{},
 	start: StartStopNotifier<T> = noop,
 	methods: any = {}
-): Writable<T> {
+): GunWritable<T> {
 	let stop: Unsubscriber
 	let store = defaultValue
 	const subscribers: Set<SubscribeInvalidateTuple<T>> = new Set()
@@ -103,32 +100,37 @@ export function writableGun<T>(
 		}
 	}
 
-	ref.on(async (data: T, key: string | number) => {
-		// todo: 判断是否是 obj 是则递归监听 once 且只能从树枝更新
-		console.log('数据库修改为', key, data)
-		if (ref._.get === key) {
-			// 从 gun.get() 中获取数据, 否则调用 map() 获取数据
-			store = data
-		} else if (!data) {
-			// 输入 undefined 则删除值
-			delete store[key]
-		} else {
-			store[key] = data
+	// 数据初始化并监听每个数据末尾分支
+	ref.once(async (data: any) => {
+		// 递归数据到基本类型
+		const searchObject = async (obj: any, ref: any, store: T) => {
+			for (const key in obj) {
+				const nextLayer = ref.get(key)
+				const v = obj[key]
+				if (key !== '#') {
+					if (key !== '_') {
+						if (v instanceof Object) {
+							await searchObject(await nextLayer, nextLayer, store[key])
+						} else {
+							nextLayer.on(async (data: any, key: string | number) => {
+								// 更新数据
+								store[key] = data
+								if (process.env.NODE_ENV === 'development') console.log('更新数据', key)
+								// 更新视图
+								updateVisual()
+							})
+						}
+					}
+				}
+			}
 		}
-		// Tell each subscriber that data has been updated
-		updateVisual()
+
+		await searchObject(data, ref, store)
 	})
 
-	function set(new_value: T) {
-		// console.log('更新为', new_value)
-		if (safe_not_equal(store, new_value)) {
-			// 更新视图层数据
-			store = new_value
-			// 更新视图
-			updateVisual()
-			// 更新持久层数据
-			ref.put(new_value)
-		}
+	async function set(new_value: T) {
+		// 更新持久层数据 todo:对比js树，只更新变化数据
+		ref.put(new_value)
 	}
 
 	function update(fn: Updater<T>): void {
@@ -158,7 +160,7 @@ export function writableGun<T>(
 		}
 	}
 
-	return { ...methods, set, update, subscribe }
+	return { ...methods, set, update, subscribe, ref }
 }
 
 const gun = new Gun<GunData>()
@@ -174,7 +176,7 @@ const userStoreInit = <T>(
 	defaultUserStore: T,
 	start: StartStopNotifier<T> = noop,
 	methods: any = {}
-): Writable<T> => {
+): GunWritable<T> => {
 	// 获取 globalConfig 集合
 	const userStore = gun.get('userStore')
 
@@ -185,7 +187,7 @@ const userStoreInit = <T>(
 		userStore.put(defaultUserStore)
 	})
 
-	return writableGun<T>(userStore.map(), defaultUserStore, start, methods)
+	return writableGun<T>(userStore, defaultUserStore, start, methods)
 }
 
 // 默认配置，用于初始化应用
@@ -199,5 +201,5 @@ const defaultUserStore: UserStore = {
 	}
 }
 
-export type { UserStore }
+export type { UserStore, GunWritable }
 export const userStore = userStoreInit<UserStore>(defaultUserStore)

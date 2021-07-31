@@ -1,4 +1,4 @@
-import type { AppConfig, UserStore } from '$lib/store'
+import type { AppConfig, LocalStore, UserStore } from '$lib/store'
 import { AppLoadError } from '$lib/error'
 
 /**应用CDN源信息映射
@@ -36,7 +36,7 @@ class AppMetadata {
 	 * @return {Promise<AppMetadata>}
 	 * @memberof AppMetadata
 	 */
-	async init(appConfig: AppConfig, userStore: UserStore): Promise<AppMetadata> {
+	async init(appConfig: AppConfig, localStore: LocalStore): Promise<AppMetadata> {
 		this.appConfig = appConfig
 
 		// 初始化
@@ -48,7 +48,7 @@ class AppMetadata {
 		}
 
 		// 验证
-		this.valid(userStore)
+		this.valid(localStore)
 
 		return this
 	}
@@ -89,21 +89,20 @@ class AppMetadata {
 	}
 
 	// 验证应用合法性
-	private valid(userStore: UserStore) {
-		const validDomain = () => {
+	private valid(localStore: LocalStore) {
+		const validDomain = (currentDomain: string) => {
 			const localhost = ['localhost', '127.0.0.1', '::1', '0.0.0.0']
-			const currentDomain = userStore.state.runtimeState.currentDomain
 			if (
 				!localhost.includes(currentDomain) &&
 				this.appConfig.lockedDomain !== null &&
-				!this.appConfig.lockedDomain.includes(currentDomain)
+				!this.appConfig.lockedDomain?.includes(currentDomain)
 			) {
 				throw new AppLoadError('应用域名锁定限制')
 			}
 		}
-
+		const currentDomain = localStore.currentDomain
 		// 验证应用域名是否合法
-		validDomain()
+		validDomain(currentDomain)
 	}
 
 	// 微应用在非根路由的情况下需要自定义fetch请求静态文件
@@ -131,7 +130,7 @@ class AppMetadata {
 /**从URL配置中获取应用元信息
  * @param {GlobalConfig} globalConfig 配置
  */
-const appMetadataGetter = (appConfig: AppConfig, userStore: UserStore) =>
-	new AppMetadata().init(appConfig, userStore)
+const appMetadataGetter = (appConfig: AppConfig, localStore: LocalStore) =>
+	new AppMetadata().init(appConfig, localStore)
 
 export { appMetadataGetter, AppMetadata }
