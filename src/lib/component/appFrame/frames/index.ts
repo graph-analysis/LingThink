@@ -1,1 +1,1 @@
-export * from './utils'
+export { appMetadataGetter, AppMetadata, prefetchApp } from './utils'

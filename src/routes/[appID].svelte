@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import type { AppConfig } from '$lib/store'
+	import type { AppConfig } from '$lib/store/index'
 
 	/**
 	 * @type {import('@sveltejs/kit').Load}

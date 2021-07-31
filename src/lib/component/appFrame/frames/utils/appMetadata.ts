@@ -1,4 +1,4 @@
-import type { AppConfig, LocalStore, UserStore } from '$lib/store'
+import type { AppConfig, LocalStore } from '$lib/store'
 import { AppLoadError } from '$lib/error'
 
 /**应用CDN源信息映射
