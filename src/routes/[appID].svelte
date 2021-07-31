@@ -6,7 +6,7 @@
 	 */
 	export async function load({ page, fetch }) {
 		const appID = page.params.appID
-		const r = await (await fetch('a.json')).json()
+		const r = await (await fetch('apps.json')).json()
 		const appConfig: AppConfig = r?.app[appID]
 		return { props: { appConfig: appConfig, host: page.host.split(':')[0] } }
 	}
