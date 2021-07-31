@@ -20,13 +20,11 @@
 	// 加载完毕
 	let loadOK = false
 
+	// 获取应用运行元数据
 	const getAppMetadata = async () => {
 		// 开始loading
 		loadingVisible = true
-		// 在动画时预取应用
-		const appMetadata = await appMetadataGetter(appConfig, localStore)
-		// await prefetchApp(appMetadata)
-		return appMetadata
+		return await appMetadataGetter(appConfig, localStore)
 	}
 
 	$: if (loadOK) {

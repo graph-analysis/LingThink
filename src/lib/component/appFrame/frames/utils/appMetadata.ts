@@ -90,19 +90,16 @@ class AppMetadata {
 
 	// 验证应用合法性
 	private valid(localStore: LocalStore) {
-		const validDomain = (currentDomain: string) => {
+		const validDomain = (currentDomain: string, appConfig: AppConfig) => {
 			const localhost = ['localhost', '127.0.0.1', '::1', '0.0.0.0']
-			if (
-				!localhost.includes(currentDomain) &&
-				this.appConfig.lockedDomain !== null &&
-				!this.appConfig.lockedDomain?.includes(currentDomain)
-			) {
-				throw new AppLoadError('应用域名锁定限制')
+			const lockedDomain = appConfig.lockedDomain || []
+			if (localhost.includes(currentDomain) || lockedDomain.includes(currentDomain)) {
+				return
 			}
+			throw new AppLoadError('应用域名锁定限制')
 		}
-		const currentDomain = localStore.currentDomain
 		// 验证应用域名是否合法
-		validDomain(currentDomain)
+		validDomain(localStore.currentDomain, this.appConfig)
 	}
 
 	// 微应用在非根路由的情况下需要自定义fetch请求静态文件

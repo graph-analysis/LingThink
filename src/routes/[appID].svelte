@@ -14,11 +14,15 @@
 
 <script lang="ts">
 	import { AppFrame } from '$lib/component'
-	import { localStore } from '$lib/store'
+	import { localStore, userStore } from '$lib/store'
+	import { onMount } from 'svelte'
 	export let appConfig: AppConfig
 	export let host: string
 
-	$localStore.currentDomain = host
+	onMount(async () => {
+		await userStore.ref.get('state').get('runtimeState').get('currentAppID').put(appConfig.id)
+		$localStore.currentDomain = host
+	})
 </script>
 
 {#if appConfig !== undefined}
