@@ -202,4 +202,5 @@ const defaultUserStore: UserStore = {
 }
 
 export type { UserStore, GunWritable }
+// 避免直接使用 set 方法重设储存, 尽量使用 ref
 export const userStore = userStoreInit<UserStore>(defaultUserStore)
