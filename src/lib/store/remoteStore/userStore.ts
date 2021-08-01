@@ -106,11 +106,12 @@ export function writableGun<T>(
 		const searchObject = async (obj: any, ref: any, store: T) => {
 			for (const key in obj) {
 				const nextLayer = ref.get(key)
+				const nextLayerValue = await nextLayer
 				const v = obj[key]
 				if (key !== '#') {
 					if (key !== '_') {
 						if (v instanceof Object) {
-							await searchObject(await nextLayer, nextLayer, store[key])
+							await searchObject(nextLayerValue, nextLayer, store[key])
 						} else {
 							nextLayer.on(async (data: any, key: string | number) => {
 								// 更新数据
