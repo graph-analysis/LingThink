@@ -54,7 +54,7 @@
 			<div transition:fade>
 				{#if loadingVisible}
 					<div class="loading" transition:fade>
-						<Jumper size="60" color="#FF3E00" unit="px" duration="1s" />
+						<Jumper size="100" color="#FF3E00" unit="px" />
 					</div>
 				{/if}
 				<AutoFrame {appMetadata} bind:loadOK />

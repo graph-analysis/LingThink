@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AppMain from './appMain.svelte'
+	import { AppMain } from '$lib/component/defaultTheme'
 	import store from '$lib/store'
 	import { onMount } from 'svelte'
 

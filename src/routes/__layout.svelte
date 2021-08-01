@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AppBar from './appBar.svelte'
+	import { AppBar } from '$lib/component/defaultTheme'
 	import store from '$lib/store/index'
 
 	// 加载国际化资源
