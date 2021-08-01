@@ -72,7 +72,7 @@ const subscriber_queue = []
  * @param {*} [interval=5] 渲染批处理时间窗口长度
  * @return {*}  {GunReadable<T>}
  */
-function writableGun<T>(
+function readableGun<T>(
 	ref: any,
 	defaultValue: T = <T>{},
 	start: StartStopNotifier<T> = noop,
@@ -176,20 +176,22 @@ function writableGun<T>(
 
 const gun = new Gun<GunData>()
 
-/** 用户个人信息同步Store
+/** Store初始化
  * @template T
+ * @param {keyof GunData} collectionName
  * @param {T} defaultValue
  * @param {StartStopNotifier<T>} [start=noop]
  * @param {*} [methods={}]
  * @return {*} {GunReadable<T>}
  */
 const storeInit = <T>(
+	collectionName: keyof GunData,
 	defaultValue: T,
 	start: StartStopNotifier<T> = noop,
 	methods: any = {}
 ): GunReadable<T> => {
 	// 获取 globalConfig 集合
-	const userStore = gun.get('userStore')
+	const userStore = gun.get(collectionName)
 
 	// 无值就初始化本地数据库
 	userStore.not((e: any) => {
@@ -198,7 +200,7 @@ const storeInit = <T>(
 		userStore.put(defaultValue)
 	})
 
-	return writableGun<T>(userStore, defaultValue, start, methods)
+	return readableGun<T>(userStore, defaultValue, start, methods)
 }
 
 // 默认配置，用于初始化应用
@@ -214,4 +216,4 @@ const defaultUserStore: UserStore = {
 
 export type { UserStore, GunReadable }
 // 避免直接使用 set 方法重设储存, 尽量使用 ref
-export const userStore = storeInit<UserStore>(defaultUserStore)
+export const userStore = storeInit<UserStore>('userStore', defaultUserStore)

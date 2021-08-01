@@ -1,3 +1,5 @@
+import { GunReadable, UserStore, userStore } from './userStore'
+
 export type { AppState } from './appState'
 export type { RuntimeState } from './runtimeState'
 export type { UserStore, GunReadable } from './userStore'
@@ -7,3 +9,11 @@ export type { WindowConfig } from './windowConfig'
 export { userStore } from './userStore'
 export { defaultRuntimeState } from './runtimeState'
 export { defaultWindowConfig, Language } from './windowConfig'
+
+export interface RemoteStore {
+	userStore: GunReadable<UserStore>
+}
+
+export default <RemoteStore>{
+	userStore: userStore
+}

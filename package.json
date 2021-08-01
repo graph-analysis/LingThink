@@ -39,6 +39,7 @@
 		"gun": "^0.2020.1232",
 		"qiankun": "^2.4.4",
 		"svelte-i18n": "^3.3.9",
+		"svelte-loading-spinners": "^0.1.7",
 		"svelte-materialify": "^0.3.11",
 		"systemjs": "^6.10.2"
 	}

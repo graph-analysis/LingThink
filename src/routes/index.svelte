@@ -1,22 +1,16 @@
 <script lang="ts">
-	import { localStore, userStore } from '$lib/store'
+	import AppMain from './appMain.svelte'
+	import store from '$lib/store'
 	import { onMount } from 'svelte'
 
 	onMount(async () => {
 		// 同步 app 状态
-		await userStore.ref.get('state').get('runtimeState').get('currentAppID').put(null)
-	})
-</script>
-
-<button
-	on:click={async () => {
-		await userStore.ref
+		await store.remoteStore.userStore.ref
 			.get('state')
 			.get('runtimeState')
 			.get('currentAppID')
-			.put(Date.now().toString())
-	}}>clickme</button
->
-{JSON.stringify($userStore)}
+			.put(null)
+	})
+</script>
 
-{JSON.stringify($localStore)}
+<AppMain {store} />

@@ -15,14 +15,18 @@
 
 <script lang="ts">
 	import { AppFrame } from '$lib/component'
-	import { localStore, userStore } from '$lib/store'
+	import { localStore, remoteStore } from '$lib/store'
 	import { onMount } from 'svelte'
 	export let appConfig: AppConfig
 	export let host: string
 
 	onMount(async () => {
 		// 同步 app 状态
-		await userStore.ref.get('state').get('runtimeState').get('currentAppID').put(appConfig.id)
+		await remoteStore.userStore.ref
+			.get('state')
+			.get('runtimeState')
+			.get('currentAppID')
+			.put(appConfig.id)
 
 		// 记录目前的域名
 		$localStore.currentDomain = host

@@ -1,30 +1,14 @@
 <script lang="ts">
-	import { AppBar } from '$lib/component/index'
-	import { MaterialApp } from 'svelte-materialify'
-	import { localStore } from '$lib/store/index'
-	import { isLoading } from 'svelte-i18n'
-	import { blur } from 'svelte/transition'
+	import AppBar from './appBar.svelte'
+	import store from '$lib/store/index'
 
 	// 加载国际化资源
 	import '$lib/i18n/index'
+	import { isLoading } from 'svelte-i18n'
 </script>
 
 <!-- 国际化资源加载完毕 -->
 {#if !$isLoading}
-	<MaterialApp>
-		<div class="page" in:blur={{ duration: 200 }}>
-			<!-- AppBar 任务栏组件 -->
-			<AppBar bind:localStore={$localStore} />
-
-			<!-- 应用视窗 -->
-			<slot />
-		</div>
-	</MaterialApp>
+	<!-- AppBar 组件 -->
+	<AppBar {store}><slot /></AppBar>
 {/if}
-
-<style>
-	.page {
-		display: flex;
-		flex-direction: column;
-	}
-</style>

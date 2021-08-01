@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import { fade } from 'svelte/transition'
-	import { ProgressCircular } from 'svelte-materialify'
+	import { Jumper } from 'svelte-loading-spinners'
 	import AutoFrame from './frames/index.svelte'
 	import { appMetadataGetter } from './frames'
 	import type { AppConfig, LocalStore } from '$lib/store'
@@ -54,7 +54,7 @@
 			<div transition:fade>
 				{#if loadingVisible}
 					<div class="loading" transition:fade>
-						<ProgressCircular size={70} indeterminate color="primary" />
+						<Jumper size="60" color="#FF3E00" unit="px" duration="1s" />
 					</div>
 				{/if}
 				<AutoFrame {appMetadata} bind:loadOK />
