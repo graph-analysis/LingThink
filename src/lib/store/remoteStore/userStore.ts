@@ -111,8 +111,10 @@ export function writableGun<T>(
 				if (key !== '#') {
 					if (key !== '_') {
 						if (v instanceof Object) {
+							store[key] = store[key] || {}
 							await searchObject(nextLayerValue, nextLayer, store[key])
 						} else {
+							// 监听数据改动
 							nextLayer.on(async (data: any, key: string | number) => {
 								// 更新数据
 								store[key] = data
