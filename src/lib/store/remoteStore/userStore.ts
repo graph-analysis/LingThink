@@ -3,7 +3,7 @@ import 'gun/lib/not.js'
 import 'gun/lib/then.js'
 import type { IGunChainReference } from 'gun/types/chain'
 import { noop } from 'svelte/internal'
-import type { StartStopNotifier, Subscriber, Unsubscriber, Updater, Writable } from 'svelte/store'
+import type { Readable, StartStopNotifier, Subscriber, Unsubscriber } from 'svelte/store'
 import type { AppState } from './appState'
 import { defaultRuntimeState, RuntimeState } from './runtimeState'
 import { defaultWindowConfig, WindowConfig } from './windowConfig'
@@ -56,7 +56,7 @@ interface GunData {
  * @extends {Writable<T>}
  * @template T
  */
-interface GunWritable<T> extends Writable<T> {
+interface GunReadable<T> extends Readable<T> {
 	methods: Array<Function>
 	ref: IGunChainReference<T, any, 'pre_root'>
 }
@@ -64,20 +64,19 @@ interface GunWritable<T> extends Writable<T> {
 const subscriber_queue = []
 
 /**GunDB 的 svelte Store 可写封装
- * @export
  * @template T
  * @param {*} ref gunDB 对象实例
- * @param {T} [defaultValue] 初始化默认值
+ * @param {T} [defaultValue=<T>{}] 初始化默认值
  * @param {StartStopNotifier<T>} [start=noop] 开始和取消订阅监测函数
  * @param {*} [methods={}] 可自定义的拓展方法
- * @return {*}  {Writable<T>}
+ * @return {*}  {GunReadable<T>}
  */
-export function writableGun<T>(
+function writableGun<T>(
 	ref: any,
 	defaultValue: T = <T>{},
 	start: StartStopNotifier<T> = noop,
 	methods: any = {}
-): GunWritable<T> {
+): GunReadable<T> {
 	let stop: Unsubscriber
 	let store = defaultValue
 	const subscribers: Set<SubscribeInvalidateTuple<T>> = new Set()
@@ -136,10 +135,6 @@ export function writableGun<T>(
 		ref.put(new_value)
 	}
 
-	function update(fn: Updater<T>): void {
-		set(fn(store))
-	}
-
 	function subscribe(run: Subscriber<T>, invalidate: Invalidator<T> = noop): Unsubscriber {
 		const subscriber: SubscribeInvalidateTuple<T> = [run, invalidate]
 		subscribers.add(subscriber)
@@ -163,23 +158,23 @@ export function writableGun<T>(
 		}
 	}
 
-	return { ...methods, set, update, subscribe, ref }
+	return { ...methods, subscribe, ref }
 }
 
 const gun = new Gun<GunData>()
 
 /** 用户个人信息同步Store
  * @template T
- * @param {T} defaultUserStore
+ * @param {T} defaultValue
  * @param {StartStopNotifier<T>} [start=noop]
  * @param {*} [methods={}]
- * @return {*} {Writable<T>}
+ * @return {*} {GunReadable<T>}
  */
-const userStoreInit = <T>(
-	defaultUserStore: T,
+const storeInit = <T>(
+	defaultValue: T,
 	start: StartStopNotifier<T> = noop,
 	methods: any = {}
-): GunWritable<T> => {
+): GunReadable<T> => {
 	// 获取 globalConfig 集合
 	const userStore = gun.get('userStore')
 
@@ -187,10 +182,10 @@ const userStoreInit = <T>(
 	userStore.not((e: any) => {
 		if (process.env.NODE_ENV === 'development') console.log('本地无数据,根据默认值创建:', e)
 		// .put(defaultUserStore)
-		userStore.put(defaultUserStore)
+		userStore.put(defaultValue)
 	})
 
-	return writableGun<T>(userStore, defaultUserStore, start, methods)
+	return writableGun<T>(userStore, defaultValue, start, methods)
 }
 
 // 默认配置，用于初始化应用
@@ -204,6 +199,6 @@ const defaultUserStore: UserStore = {
 	}
 }
 
-export type { UserStore, GunWritable }
+export type { UserStore, GunReadable }
 // 避免直接使用 set 方法重设储存, 尽量使用 ref
-export const userStore = userStoreInit<UserStore>(defaultUserStore)
+export const userStore = storeInit<UserStore>(defaultUserStore)
