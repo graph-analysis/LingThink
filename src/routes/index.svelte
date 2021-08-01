@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { localStore, userStore } from '$lib/store'
-	import { onMount } from 'svelte'
+	// import { onMount } from 'svelte'
 
-	const { ref } = userStore
-	let data
-	onMount(async () => {
-		data = await ref.get('config').then()
-	})
+	// const { ref } = userStore
+	// let data
+	// onMount(async () => {
+	// 	data = await ref.get('config').then()
+	// })
 </script>
 
 <button
