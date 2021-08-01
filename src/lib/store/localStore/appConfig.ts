@@ -27,13 +27,5 @@ interface AppConfig {
 	lockedDomain?: string[]
 }
 
-// // 初始化应用配置
-// const defaultAppConfig = {
-// 	id: 'test',
-// 	name: '大数据图可视分析',
-// 	type: MicroAppType.QIANKUN,
-// 	configURL: 'https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json'
-// }
-
 export { MicroAppType }
 export type { AppConfig }

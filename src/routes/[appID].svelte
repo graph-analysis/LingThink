@@ -8,6 +8,7 @@
 		const appID = page.params.appID
 		const r = await (await fetch('apps.json')).json()
 		const appConfig: AppConfig = r?.app[appID]
+		// 传递初始化的 appConfig 和 域名
 		return { props: { appConfig: appConfig, host: page.host.split(':')[0] } }
 	}
 </script>
@@ -20,7 +21,10 @@
 	export let host: string
 
 	onMount(async () => {
+		// 同步 app 状态
 		await userStore.ref.get('state').get('runtimeState').get('currentAppID').put(appConfig.id)
+
+		// 记录目前的域名
 		$localStore.currentDomain = host
 	})
 </script>

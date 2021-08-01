@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { localStore, userStore } from '$lib/store'
-	// import { onMount } from 'svelte'
+	import { onMount } from 'svelte'
 
-	// const { ref } = userStore
-	// let data
-	// onMount(async () => {
-	// 	data = await ref.get('config').then()
-	// })
+	onMount(async () => {
+		// 同步 app 状态
+		await userStore.ref.get('state').get('runtimeState').get('currentAppID').put(null)
+	})
 </script>
 
 <button

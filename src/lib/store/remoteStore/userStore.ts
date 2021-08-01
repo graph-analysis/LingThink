@@ -69,16 +69,19 @@ const subscriber_queue = []
  * @param {T} [defaultValue=<T>{}] 初始化默认值
  * @param {StartStopNotifier<T>} [start=noop] 开始和取消订阅监测函数
  * @param {*} [methods={}] 可自定义的拓展方法
+ * @param {*} [interval=5] 渲染批处理时间窗口长度
  * @return {*}  {GunReadable<T>}
  */
 function writableGun<T>(
 	ref: any,
 	defaultValue: T = <T>{},
 	start: StartStopNotifier<T> = noop,
-	methods: any = {}
+	methods: any = {},
+	interval: number = 5
 ): GunReadable<T> {
 	let stop: Unsubscriber
 	let store = defaultValue
+	let cront: NodeJS.Timer
 	const subscribers: Set<SubscribeInvalidateTuple<T>> = new Set()
 
 	const updateVisual = () => {
@@ -97,6 +100,16 @@ function writableGun<T>(
 				subscriber_queue.length = 0
 			}
 		}
+	}
+
+	const applyVisual = () => {
+		cront =
+			cront ||
+			setInterval(() => {
+				updateVisual()
+				clearInterval(cront)
+				cront = undefined
+			}, interval)
 	}
 
 	// 数据初始化并监听每个数据末尾分支
@@ -119,7 +132,7 @@ function writableGun<T>(
 								store[key] = data
 								if (process.env.NODE_ENV === 'development') console.log('更新数据', key)
 								// 更新视图
-								updateVisual()
+								applyVisual()
 							})
 						}
 					}
