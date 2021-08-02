@@ -1,5 +1,3 @@
-import { getLocaleFromNavigator } from 'svelte-i18n'
-
 /**语言
  * @enum {number}
  */
@@ -18,7 +16,7 @@ interface WindowConfig {
 
 // 默认窗口配置
 const defaultWindowConfig: WindowConfig = {
-	language: Language[getLocaleFromNavigator()?.replace('-', '_')],
+	language: Language.zh_CN,
 	themeColor: '#FF3E00'
 }
 
