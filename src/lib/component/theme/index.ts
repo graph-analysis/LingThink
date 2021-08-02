@@ -1,3 +1,3 @@
-// todo 动态引入
-export { default as AppBar } from './default/appBar.svelte'
-export { default as AppMain } from './default/appMain.svelte'
+// todo 动态选择引入主题
+export { default as AppBar } from './appBar.svelte'
+export { default as AppMain } from './appMain.svelte'
