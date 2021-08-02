@@ -15,8 +15,9 @@
 
 <script lang="ts">
 	import { AppFrame } from '$lib/component'
-	import { localStore, remoteStore } from '$lib/store'
+	import store from '$lib/store'
 	import { onMount } from 'svelte'
+	const { remoteStore, localStore } = store
 	export let appConfig: AppConfig
 	export let host: string
 
@@ -34,5 +35,5 @@
 </script>
 
 {#if appConfig !== undefined}
-	<AppFrame bind:localStore={$localStore} {appConfig} />
+	<AppFrame {store} {appConfig} />
 {/if}

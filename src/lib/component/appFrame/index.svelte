@@ -3,13 +3,15 @@
 	import { Jumper } from 'svelte-loading-spinners'
 	import AutoFrame from './frames/index.svelte'
 	import { appMetadataGetter } from './frames'
-	import type { AppConfig, LocalStore } from '$lib/store'
+	import type { AppConfig, Store } from '$lib/store'
 </script>
 
 <script lang="ts">
 	export let appConfig: AppConfig
-	export let localStore: LocalStore
+	export let store: Store
 
+	const { localStore, remoteStore } = store
+	const { userStore } = remoteStore
 	const splashScreenVedio: string = appConfig.splashScreenVedio
 
 	// 空字符串或未定义url就不播放
@@ -24,14 +26,14 @@
 	const getAppMetadata = async () => {
 		// 开始loading
 		loadingVisible = true
-		return await appMetadataGetter(appConfig, localStore)
+		return await appMetadataGetter(appConfig, $localStore)
 	}
 
 	$: if (loadOK) {
 		// 结束loading
 		loadingVisible = false
 		// 最小化appbar
-		localStore.collapsed = true
+		$localStore.collapsed = true
 	}
 </script>
 
@@ -54,7 +56,7 @@
 			<div transition:fade>
 				{#if loadingVisible}
 					<div class="loading" transition:fade>
-						<Jumper size="100" color="#FF3E00" unit="px" />
+						<Jumper size="100" color={$userStore.config.windowConfig.themeColor} unit="px" />
 					</div>
 				{/if}
 				<AutoFrame {appMetadata} bind:loadOK />

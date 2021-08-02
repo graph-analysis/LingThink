@@ -13,11 +13,13 @@ enum Language {
  */
 interface WindowConfig {
 	language: Language
+	themeColor: string
 }
 
 // 默认窗口配置
 const defaultWindowConfig: WindowConfig = {
-	language: Language[getLocaleFromNavigator()?.replace('-', '_')]
+	language: Language[getLocaleFromNavigator()?.replace('-', '_')],
+	themeColor: '#FF3E00'
 }
 
 export { defaultWindowConfig, Language }
