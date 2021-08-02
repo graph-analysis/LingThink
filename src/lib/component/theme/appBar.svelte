@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AppBar from './default/appBar.svelte'
-	import { getLocaleFromNavigator, init } from 'svelte-i18n'
+	import { init } from 'svelte-i18n'
 	import type { Store } from '$lib/store'
 	export let store: Store
 
@@ -12,7 +12,7 @@
 
 	// 初始化语言模块
 	init({
-		fallbackLocale: 'zh',
+		fallbackLocale: '中文简体',
 		// 加载语言配置
 		initialLocale: $userStore.config.windowConfig.language
 	})
