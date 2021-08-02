@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts">
-	import { AppFrame } from '$lib/component'
+	import AppFrame from '$lib/component/appFrame'
 	import store from '$lib/store'
 	import { onMount } from 'svelte'
 	const { remoteStore, localStore } = store

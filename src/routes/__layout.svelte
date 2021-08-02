@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AppBar } from '$lib/component/defaultTheme'
+	import { AppBar } from '$lib/component/theme'
 	import store from '$lib/store/index'
 
 	// 加载国际化资源
