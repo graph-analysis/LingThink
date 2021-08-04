@@ -17,6 +17,8 @@
 	import AppFrame from '$lib/component/appFrame'
 	import store from '$lib/store'
 	import { onMount } from 'svelte'
+	import { getAPI } from '$lib/api'
+
 	const { localStore } = store
 	export let appConfig: AppConfig
 	export let host: string
@@ -28,5 +30,5 @@
 </script>
 
 {#if appConfig !== undefined}
-	<AppFrame {store} {appConfig} />
+	<AppFrame {store} {appConfig} api={getAPI(appConfig)} />
 {/if}

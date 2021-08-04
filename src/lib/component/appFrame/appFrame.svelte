@@ -4,11 +4,13 @@
 	import AutoFrame from './frames/index.svelte'
 	import { appMetadataGetter } from './frames'
 	import type { AppConfig, Store } from '$lib/store'
+	import type { API } from '$lib/api'
 </script>
 
 <script lang="ts">
 	export let appConfig: AppConfig
 	export let store: Store
+	export let api: API
 
 	const { localStore, remoteStore } = store
 	const { userStore } = remoteStore
@@ -59,7 +61,7 @@
 						<Jumper size="100" color={$userStore.config.windowConfig.themeColor} unit="px" />
 					</div>
 				{/if}
-				<AutoFrame {appMetadata} bind:loadOK />
+				<AutoFrame {appMetadata} {api} bind:loadOK />
 			</div>
 		{/if}
 	{:catch error}

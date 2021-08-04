@@ -173,7 +173,6 @@ const storeInit = <T>(
 }
 
 const getAppDB = <T>(appID: string) => {
-	// 获取 globalConfig 集合
 	const userStore = gun.get('userStore').get('state').get('_appState').get(appID)
 
 	return <IGunChainReference<T, keyof T, 'root'>>userStore

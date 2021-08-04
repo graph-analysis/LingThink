@@ -4,11 +4,13 @@
 	import { MicroAppType } from '$lib/store'
 	import { onMount } from 'svelte'
 	import type { AppMetadata } from './index'
+	import type { API } from '$lib/api'
 </script>
 
 <script lang="ts">
 	export let appMetadata: AppMetadata
 	export let loadOK: boolean = false
+	export let api: API
 
 	let AppFrame: any
 
@@ -25,4 +27,4 @@
 	})
 </script>
 
-<svelte:component this={AppFrame} {appMetadata} bind:loadOK />
+<svelte:component this={AppFrame} {appMetadata} {api} bind:loadOK />

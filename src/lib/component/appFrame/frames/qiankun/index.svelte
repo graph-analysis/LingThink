@@ -3,11 +3,13 @@
 	import type { MicroApp } from 'qiankun'
 	import { onMount } from 'svelte'
 	import type { AppMetadata } from '..'
+	import type { API } from '$lib/api'
 </script>
 
 <script lang="ts">
 	export let appMetadata: AppMetadata
 	export let loadOK: boolean = false
+	export let api: API
 
 	let app: MicroApp
 	let container: HTMLDivElement
@@ -21,7 +23,8 @@
 			{
 				name: appMetadata.appConfig.name,
 				entry,
-				container
+				container,
+				props: { api }
 			},
 			{
 				fetch: customFetch

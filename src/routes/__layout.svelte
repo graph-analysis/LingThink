@@ -3,5 +3,4 @@
 	import store from '$lib/store'
 </script>
 
-<!-- AppBar 组件 -->
 <AppBar {store}><slot /></AppBar>
