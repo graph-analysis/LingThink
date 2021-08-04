@@ -7,15 +7,7 @@
 </script>
 
 <div>
-	<button
-		on:click={async () => {
-			await userStore.ref
-				.get('state')
-				.get('runtimeState')
-				.get('currentAppID')
-				.put(Date.now().toString())
-		}}>clickme</button
-	>
+	<button on:click={async () => {}}>clickme</button>
 	{JSON.stringify($userStore)}
 	{JSON.stringify($localStore)}
 </div>
