@@ -8,11 +8,13 @@ import { writable } from 'svelte/store'
 interface LocalStore {
 	currentDomain: string
 	collapsed: boolean
+	currentAppID: string
 }
 
 const defaultLocalStore = {
 	currentDomain: 'localhost',
-	collapsed: false
+	collapsed: false,
+	currentAppID: null
 }
 
 const localStore = writable<LocalStore>(defaultLocalStore)

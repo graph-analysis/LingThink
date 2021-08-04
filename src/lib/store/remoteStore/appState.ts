@@ -2,8 +2,9 @@
  * id 应用id
  * @interface AppState
  */
-interface AppState {
-	[id: string]: object
+interface AppState<T> {
+	[id: string]: T
 }
 
+// todo:类型传导
 export type { AppState }

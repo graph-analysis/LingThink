@@ -5,6 +5,7 @@
  * @interface RuntimeState
  */
 interface RuntimeState {
+	// todo: 转移到本地储存，用后台应用列表替代，连接上app的存储
 	currentAppID: string
 }
 
