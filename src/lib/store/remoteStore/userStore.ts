@@ -30,7 +30,7 @@ interface Config {
  */
 interface State {
 	runtimeState: RuntimeState
-	appState: AppState<any>
+	_appState: AppState<any>
 }
 
 // 默认配置，用于初始化应用
@@ -40,7 +40,7 @@ const defaultUserStore: UserStore = {
 	},
 	state: {
 		runtimeState: defaultRuntimeState,
-		appState: {}
+		_appState: {}
 	}
 }
 

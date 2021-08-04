@@ -32,6 +32,7 @@ interface GunReadable<T> extends Readable<T> {
 const subscriber_queue = []
 
 /**GunDB 的 svelte Store 可写封装
+ * _ 开头的字段不会进行视图层同步
  * @template T
  * @param {*} ref gunDB 对象实例
  * @param {T} [defaultValue=<T>{}] 初始化默认值
@@ -89,7 +90,7 @@ function readableGun<T>(
 				const nextLayerValue = await nextLayer
 				const v = obj[key]
 				if (key !== '#') {
-					if (key !== '_') {
+					if (!key.startsWith('_')) {
 						if (v instanceof Object) {
 							store[key] = store[key] || {}
 							await searchObject(nextLayerValue, nextLayer, store[key])
@@ -173,7 +174,7 @@ const storeInit = <T>(
 
 const getAppDB = <T>(appID: string) => {
 	// 获取 globalConfig 集合
-	const userStore = gun.get('userStore').get('state').get('appState').get(appID)
+	const userStore = gun.get('userStore').get('state').get('_appState').get(appID)
 
 	return <IGunChainReference<T, keyof T, 'root'>>userStore
 }
