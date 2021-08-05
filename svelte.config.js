@@ -17,7 +17,7 @@ const config = {
 			assets: 'build',
 			fallback: null
 		})
-		// 输出 Node.js
+		// 输出 Node.js SSR
 		// adapter: adapter({
 		// 	out: 'build',
 		// 	precompress: true,
