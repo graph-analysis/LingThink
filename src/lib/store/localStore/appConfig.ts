@@ -21,6 +21,9 @@ enum MicroAppType {
 interface AppConfig {
 	id: string
 	name: string
+	icon: string
+	author: string
+	description: string
 	type: MicroAppType
 	configURL: string
 	splashScreenVedio?: string

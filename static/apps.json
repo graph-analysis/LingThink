@@ -1,10 +1,11 @@
 {
-  "app": {
-    "test": {
-      "id": "test",
-      "name": "大数据图可视分析",
-      "type": "QIANKUN",
-      "configURL": "https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json"
-    }
+  "test": {
+    "id": "test",
+    "name": "大数据图可视分析",
+    "icon": "https://materializecss.github.io/materialize/images/sample-1.jpg",
+    "author":"SOVLOOKUP",
+    "description": "图分析应用",
+    "type": "QIANKUN",
+    "configURL": "https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json"
   }
 }

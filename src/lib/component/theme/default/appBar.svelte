@@ -10,7 +10,7 @@
 <div class="page" in:blur={{ duration: 200 }}>
 	<!-- AppBar 任务栏组件 -->
 	<!-- <AppBar collapsed={$localStore.collapsed} class="primary-color theme--dark"> -->
-	<nav>
+	<!-- <nav>
 		<div class="nav-wrapper">
 			<form>
 				<div class="input-field">
@@ -20,7 +20,7 @@
 				</div>
 			</form>
 		</div>
-	</nav>
+	</nav> -->
 	<!-- 主应用 -->
 	<slot />
 </div>
@@ -43,7 +43,7 @@
 		src: url('/icon.woff2') format('woff2');
 	}
 
-	.material-icons {
+	:global(.material-icons) {
 		font-family: 'Material Icons';
 		font-weight: normal;
 		font-style: normal;

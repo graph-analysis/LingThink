@@ -4,4 +4,4 @@
 	export let store: Store
 </script>
 
-<AppMain {store} />
+<AppMain {store} appSourceURL={'http://localhost:3000/apps.json'} />
