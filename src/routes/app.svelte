@@ -12,6 +12,8 @@
 	onMount(async () => {
 		// 记录目前的域名
 		$localStore.currentDomain = globalThis.location.hostname
+
+		// 从页面状态取得 appconfig
 		appConfig = globalThis.history.state
 	})
 </script>

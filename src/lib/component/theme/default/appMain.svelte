@@ -11,6 +11,7 @@
 	export let store: Store
 	export let appSourceURL: RequestInfo
 
+	// 获取应用源的json
 	const appSource = async () => (await (await fetch(appSourceURL)).json()) as AppSource
 
 	const { localStore, remoteStore } = store
@@ -35,7 +36,6 @@
 					<div class="row valign-wrapper">
 						<div class="col s2">
 							<img src={source.icon} alt="" class="circle responsive-img" />
-							<!-- notice the "circle" class -->
 						</div>
 						<div class="col s10">
 							<span class="black-text">
@@ -47,7 +47,6 @@
 				</div>
 			</div>
 
-			<!-- 描述、作者、图标 -->
 			{source.configURL}
 		{:else}
 			<p>No tasks today!</p>
