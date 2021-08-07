@@ -28,9 +28,9 @@
 	{:then sources}
 		{#each Object.values(sources) as source}
 			<div class="col s12 m6 l4 xl3" id="item">
-				<div class="card z-depth-3" id="itemcard">
+				<div class="card" id="itemcard">
 					<div class="card-image">
-						<img class="activator" alt={source.name} src={source.img} id="itemimg" />
+						<img height="180px" class="activator" alt={source.name} src={source.img} id="itemimg" />
 						<button
 							on:click={() => {
 								goto('app', { state: source })
@@ -81,6 +81,11 @@
 
 	#itemcard {
 		border-radius: $border;
+	}
+
+	#itemcard:hover {
+		box-shadow: 0 8px 17px 2px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%),
+			0 5px 5px -3px rgb(0 0 0 / 20%);
 	}
 
 	#itemimg {
