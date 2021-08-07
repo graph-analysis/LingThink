@@ -21,7 +21,7 @@ enum MicroAppType {
 interface AppConfig {
 	id: string
 	name: string
-	icon: string
+	img: string
 	author: string
 	description: string
 	type: MicroAppType

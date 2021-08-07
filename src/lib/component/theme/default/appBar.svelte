@@ -2,6 +2,7 @@
 	import type { Store } from '$lib/store'
 	import { blur } from 'svelte/transition'
 	import { _ } from 'svelte-i18n'
+	import { onMount } from 'svelte'
 
 	export let store: Store
 	const { localStore } = store
@@ -26,8 +27,6 @@
 </div>
 
 <style>
-	@import '@materializecss/materialize/dist/css/materialize.min.css';
-
 	.page {
 		display: flex;
 		flex-direction: column;

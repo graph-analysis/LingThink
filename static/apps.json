@@ -2,7 +2,66 @@
   "test": {
     "id": "test",
     "name": "大数据图可视分析",
-    "icon": "https://materializecss.github.io/materialize/images/sample-1.jpg",
+    "img": "https://materializecss.github.io/materialize/images/sample-1.jpg",
+    "author":"SOVLOOKUP",
+    "description": "图分析应用",
+    "type": "QIANKUN",
+    "configURL": "https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json",
+    "splashScreenVedio":"http://localhost:3000/loading.mp4"
+  },
+  "testa": {
+    "id": "test",
+    "name": "大数据图可视分析",
+    "img": "https://materializecss.github.io/materialize/images/sample-1.jpg",
+    "author":"SOVLOOKUP",
+    "description": "图分析应用",
+    "type": "QIANKUN",
+    "configURL": "https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json"
+  },"testb": {
+    "id": "test",
+    "name": "大数据图可视分析",
+    "img": "https://materializecss.github.io/materialize/images/sample-1.jpg",
+    "author":"SOVLOOKUP",
+    "description": "图分析应用",
+    "type": "QIANKUN",
+    "configURL": "https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json"
+  },"testca": {
+    "id": "test",
+    "name": "大数据图可视分析",
+    "img": "https://materializecss.github.io/materialize/images/sample-1.jpg",
+    "author":"SOVLOOKUP",
+    "description": "图分析应用",
+    "type": "QIANKUN",
+    "configURL": "https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json"
+  },"testas": {
+    "id": "test",
+    "name": "大数据图可视分析",
+    "img": "https://materializecss.github.io/materialize/images/sample-1.jpg",
+    "author":"SOVLOOKUP",
+    "description": "图分析应用",
+    "type": "QIANKUN",
+    "configURL": "https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json"
+  },
+  "testaa": {
+    "id": "test",
+    "name": "大数据图可视分析",
+    "img": "https://materializecss.github.io/materialize/images/sample-1.jpg",
+    "author":"SOVLOOKUP",
+    "description": "图分析应用",
+    "type": "QIANKUN",
+    "configURL": "https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json"
+  },"testbd": {
+    "id": "test",
+    "name": "大数据图可视分析",
+    "img": "https://materializecss.github.io/materialize/images/sample-1.jpg",
+    "author":"SOVLOOKUP",
+    "description": "图分析应用",
+    "type": "QIANKUN",
+    "configURL": "https://cdn.jsdelivr.net/npm/@graph-analysis/grapher-2d/package.json"
+  },"testc": {
+    "id": "test",
+    "name": "大数据图可视分析",
+    "img": "https://materializecss.github.io/materialize/images/sample-1.jpg",
     "author":"SOVLOOKUP",
     "description": "图分析应用",
     "type": "QIANKUN",
