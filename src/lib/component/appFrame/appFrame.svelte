@@ -5,6 +5,7 @@
 	import { appMetadataGetter } from './frames'
 	import type { AppConfig, Store } from '$lib/store'
 	import type { API } from '$lib/api'
+	import { onDestroy } from 'svelte'
 </script>
 
 <script lang="ts">
@@ -30,6 +31,10 @@
 		loadingVisible = true
 		return await appMetadataGetter(appConfig, $localStore)
 	}
+
+	onDestroy(() => {
+		$localStore.inMicroApp = false
+	})
 
 	$: if (loadOK) {
 		// 结束loading
