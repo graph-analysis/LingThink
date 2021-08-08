@@ -7,17 +7,13 @@
 <script lang="ts">
 	import type { AppConfig, Store } from '$lib/store'
 	import { goto } from '$app/navigation'
-	import { onMount } from 'svelte'
 	export let store: Store
 	export let appSourceURL: RequestInfo
 
 	// 获取应用源的json
 	const appSource = async () => (await (await fetch(appSourceURL)).json()) as AppSource
 
-	const { localStore, remoteStore } = store
-	const { userStore } = remoteStore
-
-	onMount(async () => {})
+	process.env.NODE_ENV === 'development' && store
 </script>
 
 <br />
@@ -61,10 +57,6 @@
 	{/await}
 </div>
 
-<!-- <div class="container grid-stack">
-	{JSON.stringify($userStore)}
-	{JSON.stringify($localStore)}
-</div> -->
 <style lang="scss">
 	$border: 16px;
 

@@ -3,25 +3,47 @@
 	import { blur } from 'svelte/transition'
 	import { _ } from 'svelte-i18n'
 	import { onMount } from 'svelte'
+	import { goto } from '$app/navigation'
 
 	export let store: Store
+
+	let fixedButton: HTMLDivElement
 	const { localStore } = store
+
+	onMount(async () => {
+		M.FloatingActionButton.init(fixedButton, {
+			direction: 'left',
+			hoverEnabled: false
+		})
+	})
+
+	const fixedButtonHook = (inMicroApp: boolean) => {
+		switch (inMicroApp) {
+			case true:
+				goto('/')
+				break
+			case false:
+				break
+		}
+	}
 </script>
 
 <div class="page" in:blur={{ duration: 200 }}>
 	<!-- AppBar 任务栏组件 -->
-	<!-- <AppBar collapsed={$localStore.collapsed} class="primary-color theme--dark"> -->
-	<!-- <nav>
-		<div class="nav-wrapper">
-			<form>
-				<div class="input-field">
-					<input id="search" type="search" required />
-					<label class="label-icon" for="search"><i class="material-icons">search</i></label>
-					<i class="material-icons">close</i>
-				</div>
-			</form>
-		</div>
-	</nav> -->
+	<div class="fixed-action-btn" bind:this={fixedButton}>
+		<button
+			class="btn-floating btn-large red"
+			on:click={() => {
+				fixedButtonHook($localStore.inMicroApp)
+			}}
+		>
+			<i class="large material-icons">{$localStore.inMicroApp ? 'arrow_back' : 'menu'}</i>
+		</button>
+		<ul>
+			<li />
+		</ul>
+	</div>
+
 	<!-- 主应用 -->
 	<slot />
 </div>

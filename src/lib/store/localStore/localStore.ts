@@ -2,17 +2,17 @@ import { writable } from 'svelte/store'
 
 /**本地状态(易失状态)
  * currentDomain 现在的域名地址
- * collapsed 任务栏是否折叠
+ * inMicroApp 微应用模式
  * @interface LocalStore
  */
 interface LocalStore {
 	currentDomain: string
-	collapsed: boolean
+	inMicroApp: boolean
 }
 
 const defaultLocalStore = {
 	currentDomain: 'localhost',
-	collapsed: false
+	inMicroApp: false
 }
 
 const localStore = writable<LocalStore>(defaultLocalStore)

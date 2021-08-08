@@ -35,7 +35,7 @@
 		// 结束loading
 		loadingVisible = false
 		// 最小化appbar
-		$localStore.collapsed = true
+		$localStore.inMicroApp = true
 	}
 </script>
 
