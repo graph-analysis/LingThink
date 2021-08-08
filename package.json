@@ -35,6 +35,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@boxslider/slider": "^1.1.2",
 		"@materializecss/materialize": "^1.1.0-alpha",
 		"gun": "^0.2020.1232",
 		"muuri": "^0.9.5",

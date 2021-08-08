@@ -7,6 +7,7 @@
 <script lang="ts">
 	import type { AppConfig, Store } from '$lib/store'
 	import { goto } from '$app/navigation'
+
 	export let store: Store
 	export let appSourceURL: RequestInfo
 
@@ -16,9 +17,13 @@
 	process.env.NODE_ENV === 'development' && store
 </script>
 
-<br />
-
+<br /><br />
 <div class="container row">
+	<div>
+		<img alt="a" width="100%" height="300vw" src="/home.png" />
+	</div>
+
+	<br />
 	{#await appSource()}
 		loading...
 	{:then sources}
