@@ -83,8 +83,4 @@
 	#itemimg {
 		border-radius: $border $border 0px 0px;
 	}
-
-	#itemimg:hover {
-		border-radius: $border $border 0px 0px;
-	}
 </style>
