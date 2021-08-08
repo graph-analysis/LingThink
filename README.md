@@ -1,5 +1,7 @@
 # LingThink
 
+![image](https://user-images.githubusercontent.com/53158137/128637878-6ec4292c-df8f-4116-af68-e159d470f7c4.png)
+
 LingThink 的核心理念是应用分散创造，用户集中使用。
 
 开发者将应用写好后托管在 npm/ipfs/私有云 中，在 LingThink 应用中心注册后，独立维护其应用。
