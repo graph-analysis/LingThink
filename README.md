@@ -1,6 +1,6 @@
 # LingThink
 
-![image](https://user-images.githubusercontent.com/53158137/128637878-6ec4292c-df8f-4116-af68-e159d470f7c4.png)
+![image](https://user-images.githubusercontent.com/53158137/128685299-12fbb39f-3927-40b5-8b9c-c661c8521064.png)
 
 LingThink 的核心理念是应用分散创造，用户集中使用。
 
