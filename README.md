@@ -25,8 +25,6 @@ LingThink 可将这些应用视作插件，动态加载并展示给用户，提�
 
 ## 应用列表
 
-很快就有应用市场界面可供选择
-
 - [Grapher-2d](https://github.com/graph-analysis/grapher-2d) 基于 Graphin 开发的图可视分析应用
 
 ## 应用开发
